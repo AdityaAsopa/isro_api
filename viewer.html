@@ -3,433 +3,720 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ISRO API Data Viewer</title>
-  <link href="style.css" rel="stylesheet" type="text/css">
+  <title>ISRO API — Data Viewer</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
   <style>
-    .viewer-container {
-      max-width: 1400px;
-      margin: 0 auto;
-      padding: 40px 20px;
-      min-height: 100vh;
+    /* ── Layout ───────────────────────────────────────────────────────────── */
+    .vw-shell {
+      max-width: 1200px; margin: 0 auto;
+      padding: 36px 24px 80px;
+      position: relative; z-index: 1;
     }
-    
-    .viewer-header {
-      margin-bottom: 30px;
+    .vw-topbar {
+      display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
+      margin-bottom: 28px;
     }
-    
-    .viewer-title {
-      font-size: 32px;
-      font-weight: 700;
-      color: #fff;
-      margin-bottom: 10px;
+    .vw-back {
+      color: var(--text-muted); font-size: 0.82rem; text-decoration: none;
+      border: 1px solid var(--border); border-radius: 6px; padding: 6px 14px;
+      transition: color .2s, border-color .2s; white-space: nowrap;
     }
-    
-    .viewer-subtitle {
-      color: #94a3b8;
-      font-size: 16px;
+    .vw-back:hover { color: var(--accent); border-color: var(--accent); }
+    .vw-title { font-size: 1.5rem; font-weight: 700; margin: 0; }
+    .vw-title span { color: var(--accent); }
+    .vw-count {
+      background: rgba(6,184,238,.15); color: var(--accent);
+      font-size: 0.75rem; font-weight: 600; padding: 4px 10px; border-radius: 99px;
     }
-    
-    .back-link {
-      display: inline-block;
-      color: #06b8ee;
-      text-decoration: none;
-      margin-bottom: 20px;
-      font-weight: 500;
-      transition: color 0.2s;
+    .vw-endpoint {
+      font-size: 0.78rem; color: var(--text-muted);
+      font-family: monospace; margin-bottom: 20px;
     }
-    
-    .back-link:hover {
-      color: #0ea5e9;
+
+    /* ── Controls bar ─────────────────────────────────────────────────────── */
+    .vw-controls {
+      display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 20px; align-items: center;
     }
-    
-    .controls {
-      display: flex;
-      gap: 15px;
-      margin-bottom: 25px;
-      flex-wrap: wrap;
+    .vw-search {
+      flex: 1; min-width: 220px;
+      padding: 9px 14px;
+      background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+      color: var(--text); font-family: 'Poppins', sans-serif; font-size: 0.85rem;
     }
-    
-    .search-box {
-      flex: 1;
-      min-width: 250px;
-      padding: 12px 16px;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 8px;
-      color: #fff;
-      font-family: 'Poppins', sans-serif;
-      font-size: 14px;
+    .vw-search::placeholder { color: var(--text-muted); }
+    .vw-search:focus { outline: none; border-color: var(--accent); }
+    .vw-view-btn {
+      padding: 9px 16px; border-radius: 8px;
+      border: 1px solid var(--border); background: var(--surface);
+      color: var(--text-muted); font-size: 0.8rem; cursor: pointer; font-family: 'Poppins', sans-serif;
+      transition: all .15s;
     }
-    
-    .search-box::placeholder {
-      color: #64748b;
+    .vw-view-btn.active, .vw-view-btn:hover {
+      border-color: var(--accent); color: var(--accent);
     }
-    
-    .filter-select {
-      padding: 12px 16px;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 8px;
-      color: #fff;
-      font-family: 'Poppins', sans-serif;
-      font-size: 14px;
-      cursor: pointer;
+    .vw-filter-select {
+      padding: 9px 12px; border-radius: 8px;
+      border: 1px solid var(--border); background: var(--surface);
+      color: var(--text); font-size: 0.8rem; cursor: pointer; font-family: 'Poppins', sans-serif;
     }
-    
-    .data-table {
-      width: 100%;
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 12px;
-      overflow: hidden;
+
+    /* ── Loading / error ──────────────────────────────────────────────────── */
+    .vw-loading { text-align: center; padding: 80px 20px; color: var(--text-muted); }
+    .vw-error {
+      background: rgba(239,68,68,.08); border: 1px solid rgba(239,68,68,.25);
+      border-radius: 10px; padding: 20px; color: #fca5a5; margin: 20px 0;
     }
-    
-    .table-wrapper {
-      overflow-x: auto;
-    }
-    
-    .data-table table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-    
-    .data-table th {
-      background: rgba(6, 184, 238, 0.1);
-      color: #06b8ee;
-      padding: 14px 16px;
-      text-align: left;
-      font-weight: 600;
-      font-size: 13px;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    }
-    
-    .data-table td {
-      padding: 14px 16px;
-      color: #cbd5e1;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-      font-size: 14px;
-    }
-    
-    .data-table tr:hover {
-      background: rgba(255, 255, 255, 0.02);
-    }
-    
-    .data-table tr:last-child td {
-      border-bottom: none;
-    }
-    
+
+    /* ── Shared badge ─────────────────────────────────────────────────────── */
     .badge {
-      display: inline-block;
-      padding: 4px 10px;
-      border-radius: 4px;
-      font-size: 12px;
-      font-weight: 600;
-      text-transform: uppercase;
+      display: inline-block; padding: 2px 8px; border-radius: 4px;
+      font-size: 0.68rem; font-weight: 600; text-transform: uppercase; letter-spacing: .04em;
     }
-    
-    .badge-active { background: #22c55e; color: #fff; }
-    .badge-decommissioned { background: #64748b; color: #fff; }
-    .badge-failed { background: #ef4444; color: #fff; }
-    .badge-success { background: #22c55e; color: #fff; }
-    .badge-geo { background: #06b8ee; color: #fff; }
-    .badge-sso { background: #a855f7; color: #fff; }
-    .badge-leo { background: #22c55e; color: #fff; }
-    .badge-lunar { background: #f59e0b; color: #fff; }
-    .badge-interplanetary { background: #f97316; color: #fff; }
-    
-    .loading {
-      text-align: center;
-      padding: 60px 20px;
-      color: #94a3b8;
-      font-size: 18px;
-    }
-    
-    .error {
-      background: rgba(239, 68, 68, 0.1);
-      border: 1px solid rgba(239, 68, 68, 0.3);
-      border-radius: 8px;
-      padding: 20px;
-      color: #fca5a5;
-      margin: 20px 0;
-    }
-    
-    .count-badge {
-      display: inline-block;
-      background: rgba(6, 184, 238, 0.2);
-      color: #06b8ee;
-      padding: 6px 12px;
-      border-radius: 6px;
-      font-size: 14px;
-      font-weight: 600;
-      margin-left: 10px;
-    }
+    .b-active        { background: #22c55e22; color: #22c55e; border: 1px solid #22c55e44; }
+    .b-decommissioned{ background: #47556922; color: #94a3b8; border: 1px solid #47556944; }
+    .b-failed        { background: #ef444422; color: #ef4444; border: 1px solid #ef444444; }
+    .b-unknown       { background: #1e293b;   color: #64748b; border: 1px solid #334155; }
+    .b-geo           { background: #06b8ee22; color: #06b8ee; border: 1px solid #06b8ee44; }
+    .b-sso           { background: #a855f722; color: #a855f7; border: 1px solid #a855f744; }
+    .b-leo           { background: #22c55e22; color: #22c55e; border: 1px solid #22c55e44; }
+    .b-lunar         { background: #f59e0b22; color: #f59e0b; border: 1px solid #f59e0b44; }
+    .b-interplanetary{ background: #f9731622; color: #f97316; border: 1px solid #f9731644; }
+    .b-pslv          { background: #06b8ee18; color: #06b8ee; border: 1px solid #06b8ee33; }
+    .b-gslv          { background: #a855f718; color: #a855f7; border: 1px solid #a855f733; }
+    .b-lvm3          { background: #f59e0b18; color: #f59e0b; border: 1px solid #f59e0b33; }
+    .b-slv           { background: #22c55e18; color: #22c55e; border: 1px solid #22c55e33; }
+    .b-aslv          { background: #14b8a618; color: #14b8a6; border: 1px solid #14b8a633; }
+    .b-other         { background: #1e293b;   color: #64748b; border: 1px solid #334155; }
 
-    .card-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 20px;
-      margin-top: 20px;
+    /* ── Generic table ────────────────────────────────────────────────────── */
+    .vw-table-wrap { overflow-x: auto; border-radius: 10px; border: 1px solid var(--border); }
+    table.vw-table { width: 100%; border-collapse: collapse; font-size: 0.83rem; }
+    table.vw-table th {
+      background: rgba(6,184,238,.07); color: var(--accent);
+      padding: 11px 14px; text-align: left; font-weight: 600;
+      font-size: 0.72rem; text-transform: uppercase; letter-spacing: .05em;
+      border-bottom: 1px solid var(--border); white-space: nowrap;
     }
-
-    .data-card {
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 12px;
-      padding: 20px;
-      transition: transform 0.2s, border-color 0.2s;
+    table.vw-table td {
+      padding: 10px 14px; color: var(--text); border-bottom: 1px solid rgba(255,255,255,.04);
+      vertical-align: middle;
     }
+    table.vw-table tr:last-child td { border-bottom: none; }
+    table.vw-table tr:hover td { background: rgba(255,255,255,.02); }
+    .td-name { font-weight: 500; color: #e2e8f0; }
+    .td-muted { color: var(--text-muted); font-size: 0.8rem; }
+    .td-mono { font-family: monospace; font-size: 0.8rem; }
 
-    .data-card:hover {
-      transform: translateY(-2px);
-      border-color: rgba(6, 184, 238, 0.3);
+    /* ── Expandable table row ─────────────────────────────────────────────── */
+    tr.vw-detail-row td { padding: 0; }
+    .vw-detail-inner {
+      display: none; padding: 14px 18px;
+      background: rgba(6,184,238,.03); border-top: 1px solid var(--border);
     }
-
-    .data-card h3 {
-      color: #06b8ee;
-      font-size: 18px;
-      margin-bottom: 12px;
-      font-weight: 600;
+    .vw-detail-inner.open { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 10px 20px; }
+    .vw-detail-field { font-size: 0.75rem; }
+    .vw-detail-field .dk { color: var(--text-muted); text-transform: uppercase; font-size: 0.65rem; letter-spacing: .05em; }
+    .vw-detail-field .dv { color: var(--text); margin-top: 2px; }
+    tr.vw-main-row { cursor: pointer; }
+    tr.vw-main-row td:first-child::before {
+      content: '▶'; font-size: 0.6rem; color: var(--text-muted); margin-right: 8px;
+      transition: transform .15s; display: inline-block;
     }
+    tr.vw-main-row.open td:first-child::before { transform: rotate(90deg); color: var(--accent); }
 
-    .data-card p {
-      color: #cbd5e1;
-      font-size: 14px;
-      margin: 8px 0;
+    /* ── Card grid ────────────────────────────────────────────────────────── */
+    .vw-card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
+    .vw-card {
+      background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
+      padding: 18px 20px; transition: transform .15s, border-color .15s;
     }
+    .vw-card:hover { transform: translateY(-2px); border-color: rgba(6,184,238,.35); }
+    .vw-card__name { font-size: 1rem; font-weight: 600; color: #e2e8f0; margin: 0 0 12px; }
+    .vw-card__row { display: flex; justify-content: space-between; align-items: center; margin: 5px 0; font-size: 0.78rem; }
+    .vw-card__key { color: var(--text-muted); text-transform: uppercase; font-size: 0.65rem; letter-spacing: .05em; }
+    .vw-card__val { color: var(--text); text-align: right; }
+    .vw-card__badges { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 8px; }
 
-    .data-card .label {
-      color: #64748b;
-      font-size: 12px;
-      text-transform: uppercase;
-      font-weight: 600;
-      letter-spacing: 0.5px;
+    /* ── Grouped / collapsible view ───────────────────────────────────────── */
+    .vw-groups { display: flex; flex-direction: column; gap: 8px; }
+    .vw-group {
+      background: var(--surface); border: 1px solid var(--border); border-radius: 10px; overflow: hidden;
+    }
+    .vw-group__header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 14px 18px; cursor: pointer; user-select: none;
+      transition: background .15s;
+    }
+    .vw-group__header:hover { background: rgba(6,184,238,.05); }
+    .vw-group__left { display: flex; align-items: center; gap: 12px; }
+    .vw-group__name { font-weight: 600; font-size: 0.95rem; }
+    .vw-group__meta { font-size: 0.75rem; color: var(--text-muted); }
+    .vw-group__chevron {
+      font-size: 0.7rem; color: var(--text-muted); transition: transform .2s;
+    }
+    .vw-group.open .vw-group__chevron { transform: rotate(180deg); color: var(--accent); }
+    .vw-group__body { display: none; padding: 12px 18px 18px; border-top: 1px solid var(--border); }
+    .vw-group.open .vw-group__body { display: block; }
+
+    /* vehicle chips */
+    .vw-chip-grid { display: flex; flex-wrap: wrap; gap: 6px; }
+    .vw-chip {
+      font-family: monospace; font-size: 0.78rem; padding: 4px 10px; border-radius: 6px;
+      background: rgba(255,255,255,.05); border: 1px solid var(--border); color: var(--text);
+      transition: border-color .15s, color .15s;
+    }
+    .vw-chip:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* state chips for centres */
+    .vw-centre-list { display: flex; flex-direction: column; gap: 6px; }
+    .vw-centre-row {
+      display: flex; align-items: center; gap: 12px;
+      padding: 8px 12px; border-radius: 8px; background: rgba(255,255,255,.03);
+      font-size: 0.82rem;
+    }
+    .vw-centre-row__name { font-weight: 500; flex: 1; color: #e2e8f0; }
+    .vw-centre-row__place { color: var(--text-muted); font-size: 0.75rem; }
+
+    /* timeline / launches specific */
+    .vw-launch-row { display: flex; gap: 16px; flex-wrap: wrap; align-items: flex-start; padding: 14px 0; border-bottom: 1px solid rgba(255,255,255,.05); }
+    .vw-launch-row:last-child { border-bottom: none; }
+    .vw-launch-date { font-family: monospace; font-size: 0.8rem; color: var(--text-muted); min-width: 92px; padding-top: 2px; }
+    .vw-launch-body { flex: 1; min-width: 0; }
+    .vw-launch-primary { font-weight: 600; color: #e2e8f0; font-size: 0.9rem; }
+    .vw-launch-meta { font-size: 0.75rem; color: var(--text-muted); margin-top: 4px; }
+    .vw-launch-copax { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 8px; }
+    .vw-launch-copax .vw-chip { font-size: 0.72rem; padding: 2px 8px; }
+
+    /* search highlight */
+    mark { background: rgba(6,184,238,.3); color: inherit; border-radius: 2px; }
+
+    @media (max-width: 600px) {
+      .vw-shell { padding: 20px 14px 60px; }
+      .vw-card-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
 <body>
-  <div class="viewer-container">
-    <a href="/" class="back-link">← Back to Dashboard</a>
-    
-    <div class="viewer-header">
-      <h1 class="viewer-title" id="title">Loading...</h1>
-      <p class="viewer-subtitle" id="endpoint-url"></p>
-    </div>
-    
-    <div class="controls" id="controls" style="display: none;">
-      <input type="text" class="search-box" id="search" placeholder="Search...">
-    </div>
-    
-    <div id="content">
-      <div class="loading">Loading data...</div>
-    </div>
+<div class="stars" id="stars"></div>
+<div class="vw-shell">
+
+  <div class="vw-topbar">
+    <a href="/" class="vw-back">← Dashboard</a>
+    <h1 class="vw-title" id="vw-title">Loading…</h1>
+    <span class="vw-count" id="vw-count" style="display:none"></span>
+  </div>
+  <p class="vw-endpoint" id="vw-endpoint"></p>
+
+  <div class="vw-controls" id="vw-controls" style="display:none">
+    <input type="text" class="vw-search" id="vw-search" placeholder="Search…" autocomplete="off">
+    <span id="vw-view-toggle"></span>
+    <select class="vw-filter-select" id="vw-filter" style="display:none">
+      <option value="">All</option>
+    </select>
   </div>
 
-  <script>
-    const params = new URLSearchParams(window.location.search);
-    const endpoint = params.get('endpoint') || '/api';
-    
-    document.getElementById('endpoint-url').textContent = endpoint;
-    
-    let allData = [];
-    let currentView = 'table';
-    
-    function getBadgeClass(field, value) {
-      const val = String(value).toLowerCase();
-      
-      if (field === 'status') {
-        if (val === 'active') return 'badge-active';
-        if (val === 'decommissioned') return 'badge-decommissioned';
-        if (val === 'failed') return 'badge-failed';
-      }
-      
-      if (field === 'orbit_type') {
-        if (val === 'geo') return 'badge-geo';
-        if (val === 'sso') return 'badge-sso';
-        if (val === 'leo') return 'badge-leo';
-        if (val === 'lunar') return 'badge-lunar';
-        if (val === 'interplanetary') return 'badge-interplanetary';
-      }
-      
-      if (field === 'outcome' && val === 'success') return 'badge-success';
-      
-      return '';
-    }
-    
-    function formatValue(key, value) {
-      if (value === null || value === undefined) return '—';
-      
-      const badgeFields = ['status', 'orbit_type', 'mission_type', 'outcome'];
-      if (badgeFields.includes(key)) {
-        const badgeClass = getBadgeClass(key, value);
-        return `<span class="badge ${badgeClass}">${value}</span>`;
-      }
-      
-      if (typeof value === 'object') {
-        return JSON.stringify(value);
-      }
-      
-      return value;
-    }
-    
-    function renderTable(data, title) {
-      if (!Array.isArray(data) || data.length === 0) {
-        return '<div class="loading">No data available</div>';
-      }
-      
-      const keys = Object.keys(data[0]).filter(k => k !== 'id');
-      
-      let html = `
-        <div class="data-table">
-          <div class="table-wrapper">
-            <table>
-              <thead>
-                <tr>
-                  ${keys.map(k => `<th>${k.replace(/_/g, ' ')}</th>`).join('')}
-                </tr>
-              </thead>
-              <tbody>
-      `;
-      
-      data.forEach(item => {
-        html += '<tr>';
-        keys.forEach(key => {
-          html += `<td>${formatValue(key, item[key])}</td>`;
-        });
-        html += '</tr>';
-      });
-      
-      html += '</tbody></table></div></div>';
-      
-      document.getElementById('title').innerHTML = `${title} <span class="count-badge">${data.length} items</span>`;
-      
-      return html;
-    }
-    
-    function renderCards(data, title) {
-      if (!Array.isArray(data) || data.length === 0) {
-        return '<div class="loading">No data available</div>';
-      }
+  <div id="vw-content"><div class="vw-loading">Loading data…</div></div>
+</div>
 
-      let html = '<div class="card-grid">';
+<script>
+// ── Stars ─────────────────────────────────────────────────────────────────
+(function(){
+  const el = document.getElementById('stars');
+  for (let i = 0; i < 100; i++) {
+    const s = document.createElement('span'); s.className = 'star';
+    s.style.cssText = `left:${Math.random()*100}%;top:${Math.random()*100}%;
+      width:${Math.random()*2+1}px;height:${Math.random()*2+1}px;
+      animation-delay:${Math.random()*4}s;animation-duration:${Math.random()*3+2}s`;
+    el.appendChild(s);
+  }
+})();
 
-      data.forEach(item => {
-        const nameField = item.name || item.label || item.vehicle || item.spacecraft_name || item.centre_name || item.country || 'Item';
-        html += `<div class="data-card">`;
-        html += `<h3>${nameField}</h3>`;
-        
-        Object.entries(item).forEach(([key, value]) => {
-          if (key !== 'id' && key !== 'name' && key !== 'label' && key !== 'spacecraft_name' && key !== 'vehicle' && key !== 'centre_name') {
-            html += `<p><span class="label">${key.replace(/_/g, ' ')}</span><br>${formatValue(key, value)}</p>`;
-          }
-        });
-        
-        html += '</div>';
+// ── Badge helpers ─────────────────────────────────────────────────────────
+const STATUS_CLASS = { active:'b-active', decommissioned:'b-decommissioned', failed:'b-failed', unknown:'b-unknown' };
+const ORBIT_CLASS  = { GEO:'b-geo', SSO:'b-sso', LEO:'b-leo', Lunar:'b-lunar', Interplanetary:'b-interplanetary' };
+const FAMILY_CLASS = { PSLV:'b-pslv', GSLV:'b-gslv', 'LVM-3':'b-lvm3', SLV:'b-slv', ASLV:'b-aslv' };
+
+function badge(val, classMap, fallback='b-unknown') {
+  if (!val || val === 'null') return '<span class="badge b-unknown">—</span>';
+  const cls = classMap[val] || fallback;
+  return `<span class="badge ${cls}">${val}</span>`;
+}
+function fmt(v) {
+  if (v === null || v === undefined || v === '' || v === 'null') return '—';
+  if (typeof v === 'object') return JSON.stringify(v);
+  return String(v);
+}
+function hl(text, term) {
+  if (!term || !text) return fmt(text);
+  const escaped = term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  return String(text).replace(new RegExp(escaped, 'gi'), m => `<mark>${m}</mark>`);
+}
+
+// ── Expandable row toggle ─────────────────────────────────────────────────
+function toggleRow(btn) {
+  const detail = btn.closest('tr').nextElementSibling?.querySelector('.vw-detail-inner');
+  if (!detail) return;
+  const open = detail.classList.toggle('open');
+  btn.closest('tr').classList.toggle('open', open);
+}
+
+// ── Group expand/collapse ─────────────────────────────────────────────────
+function toggleGroup(el) {
+  el.closest('.vw-group').classList.toggle('open');
+}
+
+// ── Endpoint-specific renderers ───────────────────────────────────────────
+
+/** LAUNCHERS — grouped collapsible by vehicle_family */
+function renderLaunchers(data, search) {
+  const groups = {};
+  const q = search.toLowerCase();
+  data.forEach(l => {
+    const fam = l.vehicle_family || 'Unknown';
+    if (!groups[fam]) groups[fam] = [];
+    if (!q || l.id.toLowerCase().includes(q) || fam.toLowerCase().includes(q))
+      groups[fam].push(l.id);
+  });
+
+  const FAMILY_DESC = {
+    PSLV:  'Polar Satellite Launch Vehicle — ISRO\'s workhorse for LEO/SSO missions',
+    GSLV:  'Geosynchronous Satellite Launch Vehicle — domestic cryogenic upper stage',
+    'LVM-3':'Launch Vehicle Mark-3 — heavy-lift, successor to GSLV Mk III',
+    SLV:   'Satellite Launch Vehicle — India\'s first indigenous rocket (1979–1983)',
+    ASLV:  'Augmented Satellite Launch Vehicle — experimental 5-stage solid rocket',
+  };
+
+  const sorted = Object.entries(groups)
+    .filter(([,ids]) => ids.length > 0)
+    .sort((a,b) => b[1].length - a[1].length);
+
+  if (!sorted.length) return '<div class="vw-loading">No matches</div>';
+
+  return `<div class="vw-groups">${sorted.map(([fam, ids]) => `
+    <div class="vw-group${ids.length > 5 ? '' : ' open'}">
+      <div class="vw-group__header" onclick="toggleGroup(this)">
+        <div class="vw-group__left">
+          ${badge(fam, FAMILY_CLASS, 'b-other')}
+          <span class="vw-group__name">${fam}</span>
+          <span class="vw-group__meta">${FAMILY_DESC[fam] || ''}</span>
+        </div>
+        <span class="vw-group__meta" style="margin-right:10px">${ids.length} vehicles</span>
+        <span class="vw-group__chevron">▼</span>
+      </div>
+      <div class="vw-group__body">
+        <div class="vw-chip-grid">
+          ${ids.sort().map(id => `<span class="vw-chip">${hl(id, search)}</span>`).join('')}
+        </div>
+      </div>
+    </div>`).join('')}
+  </div>`;
+}
+
+/** CENTRES — grouped by state, collapsible */
+function renderCentres(data, search) {
+  const groups = {};
+  const q = search.toLowerCase();
+  data.forEach(c => {
+    const state = c.state || 'Unknown';
+    if (!groups[state]) groups[state] = [];
+    if (!q || c.name?.toLowerCase().includes(q) || c.place?.toLowerCase().includes(q) || state.toLowerCase().includes(q))
+      groups[state].push(c);
+  });
+
+  const sorted = Object.entries(groups)
+    .filter(([,cs]) => cs.length > 0)
+    .sort((a,b) => b[1].length - a[1].length);
+
+  if (!sorted.length) return '<div class="vw-loading">No matches</div>';
+
+  return `<div class="vw-groups">${sorted.map(([state, centres]) => `
+    <div class="vw-group open">
+      <div class="vw-group__header" onclick="toggleGroup(this)">
+        <div class="vw-group__left">
+          <span class="vw-group__name">${state}</span>
+        </div>
+        <span class="vw-group__meta" style="margin-right:10px">${centres.length} centre${centres.length>1?'s':''}</span>
+        <span class="vw-group__chevron">▼</span>
+      </div>
+      <div class="vw-group__body">
+        <div class="vw-centre-list">
+          ${centres.map(c => `
+            <div class="vw-centre-row">
+              <span class="vw-centre-row__name">${hl(c.name, search)}</span>
+              <span class="vw-centre-row__place">${fmt(c.place)}</span>
+            </div>`).join('')}
+        </div>
+      </div>
+    </div>`).join('')}
+  </div>`;
+}
+
+/** SPACECRAFTS — table with expandable detail rows */
+function renderSpacecrafts(data, search) {
+  const q = search.toLowerCase();
+  const filtered = data.filter(s =>
+    !q || s.name?.toLowerCase().includes(q) ||
+    s.orbit_type?.toLowerCase().includes(q) ||
+    s.status?.toLowerCase().includes(q) ||
+    s.launch_vehicle?.toLowerCase().includes(q)
+  );
+  if (!filtered.length) return '<div class="vw-loading">No matches</div>';
+
+  const rows = filtered.map(s => `
+    <tr class="vw-main-row" onclick="toggleRow(this)">
+      <td class="td-name">${hl(s.name, search)}</td>
+      <td class="td-mono">${fmt(s.launch_date)}</td>
+      <td>${badge(s.orbit_type, ORBIT_CLASS, 'b-unknown')}</td>
+      <td>${badge(s.status, STATUS_CLASS, 'b-unknown')}</td>
+      <td class="td-muted">${s.mass_kg != null ? s.mass_kg + ' kg' : '—'}</td>
+      <td class="td-muted">${fmt(s.launch_vehicle)}</td>
+    </tr>
+    <tr class="vw-detail-row">
+      <td colspan="6">
+        <div class="vw-detail-inner">
+          ${[
+            ['Mission type', s.mission_type],
+            ['Mission life', s.mission_life],
+            ['Power (W)', s.power_watts],
+            ['Altitude (km)', s.altitude_km],
+            ['Inclination (°)', s.inclination_deg],
+            ['Launch site', s.launch_site],
+            ['ID', s.id],
+          ].map(([k,v]) => `<div class="vw-detail-field"><div class="dk">${k}</div><div class="dv">${fmt(v)}</div></div>`).join('')}
+        </div>
+      </td>
+    </tr>`).join('');
+
+  return `<div class="vw-table-wrap"><table class="vw-table">
+    <thead><tr>
+      <th>Name</th><th>Launch date</th><th>Orbit</th><th>Status</th><th>Mass</th><th>Vehicle</th>
+    </tr></thead>
+    <tbody>${rows}</tbody>
+  </table></div>`;
+}
+
+/** MISSIONS — table with expandable detail rows */
+function renderMissions(data, search) {
+  const q = search.toLowerCase();
+  const filtered = data.filter(m =>
+    !q || m.name?.toLowerCase().includes(q) ||
+    m.mission_type?.toLowerCase().includes(q) ||
+    m.orbit_type?.toLowerCase().includes(q) ||
+    m.status?.toLowerCase().includes(q)
+  );
+  if (!filtered.length) return '<div class="vw-loading">No matches</div>';
+
+  const rows = filtered.map(m => `
+    <tr class="vw-main-row" onclick="toggleRow(this)">
+      <td class="td-name">${hl(m.name, search)}</td>
+      <td class="td-muted">${fmt(m.mission_type)}</td>
+      <td class="td-mono">${fmt(m.launch_date)}</td>
+      <td>${badge(m.orbit_type, ORBIT_CLASS, 'b-unknown')}</td>
+      <td>${badge(m.status, STATUS_CLASS, 'b-unknown')}</td>
+      <td class="td-muted">${m.mass_kg != null ? m.mass_kg + ' kg' : '—'}</td>
+    </tr>
+    <tr class="vw-detail-row">
+      <td colspan="6">
+        <div class="vw-detail-inner">
+          ${[
+            ['Launch vehicle', m.launch_vehicle],
+            ['Launch site', m.launch_site],
+            ['Orbit', m.orbit],
+            ['Altitude (km)', m.altitude_km],
+            ['Inclination (°)', m.inclination_deg],
+            ['Power (W)', m.power_watts],
+            ['Mission life', m.mission_life],
+            ['Payloads', m.payloads],
+            ['Stabilization', m.stabilization],
+            ['Propulsion', m.propulsion],
+          ].map(([k,v]) => `<div class="vw-detail-field"><div class="dk">${k}</div><div class="dv">${fmt(v)}</div></div>`).join('')}
+        </div>
+      </td>
+    </tr>`).join('');
+
+  return `<div class="vw-table-wrap"><table class="vw-table">
+    <thead><tr>
+      <th>Name</th><th>Mission type</th><th>Launch date</th><th>Orbit</th><th>Status</th><th>Mass</th>
+    </tr></thead>
+    <tbody>${rows}</tbody>
+  </table></div>`;
+}
+
+/** CUSTOMER SATELLITES — grouped by country, collapsible */
+function renderCustomerSats(data, search) {
+  const groups = {};
+  const q = search.toLowerCase();
+  data.forEach(c => {
+    const country = c.country || 'Unknown';
+    if (!groups[country]) groups[country] = [];
+    if (!q || c.id?.toLowerCase().includes(q) || country.toLowerCase().includes(q) || c.launcher?.toLowerCase().includes(q))
+      groups[country].push(c);
+  });
+
+  const sorted = Object.entries(groups)
+    .filter(([,cs]) => cs.length > 0)
+    .sort((a,b) => b[1].length - a[1].length);
+
+  if (!sorted.length) return '<div class="vw-loading">No matches</div>';
+
+  return `<div class="vw-groups">${sorted.map(([country, sats]) => `
+    <div class="vw-group${sats.length <= 3 ? ' open' : ''}">
+      <div class="vw-group__header" onclick="toggleGroup(this)">
+        <div class="vw-group__left">
+          <span class="vw-group__name">${country}</span>
+        </div>
+        <span class="vw-group__meta" style="margin-right:10px">${sats.length} satellite${sats.length>1?'s':''}</span>
+        <span class="vw-group__chevron">▼</span>
+      </div>
+      <div class="vw-group__body">
+        <div class="vw-table-wrap">
+          <table class="vw-table">
+            <thead><tr><th>Satellite ID</th><th>Launch date</th><th>Mass (kg)</th><th>Launcher</th></tr></thead>
+            <tbody>
+              ${sats.map(s => `<tr>
+                <td class="td-mono">${hl(s.id, search)}</td>
+                <td class="td-mono">${fmt(s.launch_date)}</td>
+                <td class="td-muted">${fmt(s.mass_kg)}</td>
+                <td class="td-muted">${fmt(s.launcher)}</td>
+              </tr>`).join('')}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>`).join('')}
+  </div>`;
+}
+
+/** LAUNCHES — rich card-list view */
+function renderLaunches(data, search) {
+  const q = search.toLowerCase();
+  const filtered = data.filter(l =>
+    !q || l.vehicle?.toLowerCase().includes(q) ||
+    l.primary_payload?.toLowerCase().includes(q) ||
+    l.vehicle_family?.toLowerCase().includes(q) ||
+    l.launch_site?.toLowerCase().includes(q)
+  );
+  if (!filtered.length) return '<div class="vw-loading">No matches</div>';
+
+  return `<div style="padding:4px 0">${filtered.map(l => `
+    <div class="vw-launch-row">
+      <div class="vw-launch-date">${fmt(l.launch_date)}</div>
+      <div class="vw-launch-body">
+        <div class="vw-launch-primary">
+          ${hl(l.vehicle, search)}
+          ${badge(l.vehicle_family, FAMILY_CLASS, 'b-other')}
+          ${l.outcome === 'success' ? '<span class="badge b-active" style="font-size:.65rem">✓ success</span>' :
+            l.outcome === 'failed'  ? '<span class="badge b-failed" style="font-size:.65rem">✗ failed</span>' : ''}
+        </div>
+        <div class="vw-launch-meta">
+          ${l.primary_payload ? `Primary: <b style="color:#e2e8f0">${hl(l.primary_payload, search)}</b>` : ''}
+          ${l.launch_site ? ` · ${l.launch_site}` : ''}
+          · ${l.total_payloads} payload${l.total_payloads > 1 ? 's' : ''}
+          ${l.total_mass_kg ? ` · ${l.total_mass_kg} kg total` : ''}
+        </div>
+        ${l.co_passengers?.length ? `
+          <div class="vw-launch-copax">
+            ${l.co_passengers.slice(0,8).map(p => `<span class="vw-chip">${hl(p, search)}</span>`).join('')}
+            ${l.co_passengers.length > 8 ? `<span class="vw-chip" style="color:var(--accent)">+${l.co_passengers.length-8} more</span>` : ''}
+          </div>` : ''}
+      </div>
+    </div>`).join('')}
+  </div>`;
+}
+
+/** FAMILIES — collapsible group per family */
+function renderFamilies(data, search) {
+  const q = search.toLowerCase();
+  const filtered = data.filter(f =>
+    !q || f.label?.toLowerCase().includes(q) || f.description?.toLowerCase().includes(q)
+  );
+  if (!filtered.length) return '<div class="vw-loading">No matches</div>';
+
+  return `<div class="vw-groups">${filtered.map(f => `
+    <div class="vw-group">
+      <div class="vw-group__header" onclick="toggleGroup(this)">
+        <div class="vw-group__left">
+          <span class="vw-group__name">${hl(f.label, search)}</span>
+          <span class="vw-group__meta">${f.description || ''}</span>
+        </div>
+        <span class="vw-group__meta" style="margin-right:10px">${f.count} spacecraft</span>
+        <span class="vw-group__chevron">▼</span>
+      </div>
+      <div class="vw-group__body">
+        ${f.members ? `<div class="vw-chip-grid">${f.members.map(m => `<span class="vw-chip">${fmt(m.name)}</span>`).join('')}</div>`
+          : `<a href="/viewer.html?endpoint=/api/families?name=${f.id}" style="color:var(--accent);font-size:.8rem">Load members →</a>`}
+      </div>
+    </div>`).join('')}
+  </div>`;
+}
+
+/** SEARCH RESULTS — grouped by collection */
+function renderSearch(data, query, search) {
+  const q = search.toLowerCase();
+  const filtered = data.filter(r =>
+    !q || r.name?.toLowerCase().includes(q) || r.collection?.toLowerCase().includes(q)
+  );
+  if (!filtered.length) return '<div class="vw-loading">No matches</div>';
+
+  const groups = {};
+  filtered.forEach(r => {
+    if (!groups[r.collection]) groups[r.collection] = [];
+    groups[r.collection].push(r);
+  });
+
+  return `<div class="vw-groups">${Object.entries(groups).map(([col, items]) => `
+    <div class="vw-group open">
+      <div class="vw-group__header" onclick="toggleGroup(this)">
+        <div class="vw-group__left">
+          <span class="vw-group__name">${col.replace(/_/g,' ')}</span>
+        </div>
+        <span class="vw-group__meta" style="margin-right:10px">${items.length} result${items.length>1?'s':''}</span>
+        <span class="vw-group__chevron">▼</span>
+      </div>
+      <div class="vw-group__body">
+        <div class="vw-table-wrap"><table class="vw-table">
+          <thead><tr><th>Name / ID</th><th>Matched on</th></tr></thead>
+          <tbody>
+            ${items.map(r => `<tr>
+              <td class="td-name">${hl(r.name, query)}</td>
+              <td class="td-muted">${fmt(r.match_field)}</td>
+            </tr>`).join('')}
+          </tbody>
+        </table></div>
+      </div>
+    </div>`).join('')}
+  </div>`;
+}
+
+/** TIMELINE EVENTS — compact table */
+function renderTimeline(data, search) {
+  const q = search.toLowerCase();
+  const filtered = data.filter(e =>
+    !q || e.name?.toLowerCase().includes(q) ||
+    e.type?.toLowerCase().includes(q) ||
+    e.orbit_type?.toLowerCase().includes(q) ||
+    e.date?.includes(q) ||
+    e.country?.toLowerCase().includes(q)
+  );
+  if (!filtered.length) return '<div class="vw-loading">No matches</div>';
+
+  const rows = filtered.map(e => `<tr>
+    <td class="td-mono">${fmt(e.date)}</td>
+    <td class="td-name">${hl(e.name, search)}</td>
+    <td><span class="badge b-unknown" style="font-size:.65rem">${e.type.replace('_',' ')}</span></td>
+    <td>${badge(e.orbit_type, ORBIT_CLASS, 'b-unknown')}</td>
+    <td>${badge(e.status, STATUS_CLASS, 'b-unknown')}</td>
+    <td class="td-muted">${fmt(e.country)}</td>
+  </tr>`).join('');
+
+  return `<div class="vw-table-wrap"><table class="vw-table">
+    <thead><tr><th>Date</th><th>Name</th><th>Type</th><th>Orbit</th><th>Status</th><th>Country</th></tr></thead>
+    <tbody>${rows}</tbody>
+  </table></div>`;
+}
+
+/** Generic card fallback */
+function renderCards(data, search) {
+  const q = search.toLowerCase();
+  const filtered = !q ? data : data.filter(item =>
+    Object.values(item).some(v => String(v).toLowerCase().includes(q))
+  );
+  if (!filtered.length) return '<div class="vw-loading">No matches</div>';
+
+  return `<div class="vw-card-grid">${filtered.map(item => {
+    const name = item.name || item.id || 'Item';
+    const entries = Object.entries(item).filter(([k]) => k !== 'name' && !k.startsWith('_'));
+    return `<div class="vw-card">
+      <p class="vw-card__name">${hl(name, search)}</p>
+      ${entries.slice(0, 8).map(([k, v]) => `
+        <div class="vw-card__row">
+          <span class="vw-card__key">${k.replace(/_/g,' ')}</span>
+          <span class="vw-card__val">${fmt(v)}</span>
+        </div>`).join('')}
+    </div>`;
+  }).join('')}</div>`;
+}
+
+// ── State ─────────────────────────────────────────────────────────────────
+const params   = new URLSearchParams(location.search);
+const endpoint = params.get('endpoint') || '/api';
+let allData    = [];
+let dataType   = 'generic';
+let searchQuery = '';
+let metaQuery  = '';   // for /api/search original q param
+
+document.getElementById('vw-endpoint').textContent = endpoint;
+
+function render() {
+  const html = dispatchRender(allData, dataType, searchQuery, metaQuery);
+  document.getElementById('vw-content').innerHTML = html;
+  const countEl = document.getElementById('vw-count');
+  if (allData.length) {
+    const visible = countEl.textContent.split(' ')[0];
+    countEl.textContent = `${allData.length} items`;
+    countEl.style.display = '';
+  }
+}
+
+function dispatchRender(data, type, search, meta) {
+  switch (type) {
+    case 'launchers':        return renderLaunchers(data, search);
+    case 'centres':          return renderCentres(data, search);
+    case 'spacecrafts':      return renderSpacecrafts(data, search);
+    case 'missions':         return renderMissions(data, search);
+    case 'customer_sats':    return renderCustomerSats(data, search);
+    case 'launches':         return renderLaunches(data, search);
+    case 'families':         return renderFamilies(data, search);
+    case 'search':           return renderSearch(data, meta, search);
+    case 'timeline':         return renderTimeline(data, search);
+    default:                 return renderCards(data, search);
+  }
+}
+
+// ── Fetch ─────────────────────────────────────────────────────────────────
+fetch(endpoint)
+  .then(r => r.json())
+  .then(data => {
+    let title = 'Data';
+
+    if (data.launchers)           { allData = data.launchers;             dataType = 'launchers';     title = 'Launch Vehicles'; }
+    else if (data.centres)        { allData = data.centres;               dataType = 'centres';       title = 'Research Centres'; }
+    else if (data.spacecrafts)    { allData = data.spacecrafts;           dataType = 'spacecrafts';   title = 'Spacecraft'; }
+    else if (data.spacecraft_missions) { allData = data.spacecraft_missions; dataType = 'missions';  title = 'Missions'; }
+    else if (data.customer_satellites) { allData = data.customer_satellites; dataType = 'customer_sats'; title = 'Customer Satellites'; }
+    else if (data.launches)       { allData = data.launches;              dataType = 'launches';      title = 'Launch Manifest'; }
+    else if (data.families)       { allData = data.families;              dataType = 'families';      title = 'Satellite Families'; }
+    else if (data.members)        { allData = data.members;               dataType = 'spacecrafts';   title = data.label || 'Family'; }
+    else if (data.events)         { allData = data.events;                dataType = 'timeline';      title = 'Timeline'; }
+    else if (data.results != null){ allData = data.results;               dataType = 'search';        title = `Search: "${data.query}"`; metaQuery = data.query; }
+    else if (Array.isArray(data)) { allData = data;                       dataType = 'generic'; }
+    else                          { allData = [data];                     dataType = 'generic'; }
+
+    // Set page title
+    document.getElementById('vw-title').innerHTML =
+      `<span>${title.split(' ').slice(0,-1).join(' ')}</span> ${title.split(' ').slice(-1)}`;
+    if (title.split(' ').length === 1)
+      document.getElementById('vw-title').innerHTML = `<span>${title}</span>`;
+    document.title = `ISRO — ${title}`;
+
+    // Show controls
+    if (allData.length) {
+      document.getElementById('vw-controls').style.display = 'flex';
+      document.getElementById('vw-search').addEventListener('input', e => {
+        searchQuery = e.target.value;
+        render();
       });
-      
-      html += '</div>';
-      
-      document.getElementById('title').innerHTML = `${title} <span class="count-badge">${data.length} items</span>`;
-      
-      return html;
     }
-    
-    function filterData(searchTerm) {
-      if (!searchTerm) return allData;
-      
-      const term = searchTerm.toLowerCase();
-      return allData.filter(item => {
-        return Object.values(item).some(val => 
-          String(val).toLowerCase().includes(term)
-        );
-      });
-    }
-    
-    function updateDisplay(data, title) {
-      const content = document.getElementById('content');
-      
-      if (data.length > 20) {
-        content.innerHTML = renderTable(data, title);
-      } else {
-        content.innerHTML = renderCards(data, title);
-      }
-    }
-    
-    fetch(endpoint)
-      .then(r => r.json())
-      .then(data => {
-        let displayData = [];
-        let title = 'Data';
-        
-        // Handle different response structures
-        if (data.spacecrafts) {
-          displayData = data.spacecrafts;
-          title = 'Spacecrafts';
-        } else if (data.spacecraft_missions) {
-          displayData = data.spacecraft_missions;
-          title = 'Spacecraft Missions';
-        } else if (data.launchers) {
-          displayData = data.launchers;
-          title = 'Launch Vehicles';
-        } else if (data.customer_satellites) {
-          displayData = data.customer_satellites;
-          title = 'Customer Satellites';
-        } else if (data.centres) {
-          displayData = data.centres;
-          title = 'Research Centres';
-        } else if (data.events) {
-          // /api/timeline
-          displayData = data.events;
-          title = 'Timeline Events';
-        } else if (data.launches) {
-          // /api/launches
-          displayData = data.launches;
-          title = 'Launch Manifest';
-        } else if (data.members) {
-          // /api/families?name=INSAT
-          displayData = data.members;
-          title = data.label || 'Family Members';
-        } else if (data.families) {
-          // /api/families (collection listing)
-          displayData = data.families;
-          title = 'Satellite Families';
-        } else if (data.results) {
-          // /api/search
-          displayData = data.results;
-          title = data.query ? `Search: "${data.query}"` : 'Search Results';
-        } else if (Array.isArray(data)) {
-          displayData = data;
-        } else {
-          // Single object or unknown structure
-          displayData = [data];
-        }
-        
-        allData = displayData;
-        
-        if (displayData.length > 0) {
-          document.getElementById('controls').style.display = 'flex';
-          updateDisplay(displayData, title);
-          
-          // Setup search
-          document.getElementById('search').addEventListener('input', (e) => {
-            const filtered = filterData(e.target.value);
-            updateDisplay(filtered, title);
-          });
-        } else {
-          document.getElementById('content').innerHTML = '<div class="loading">No data available</div>';
-          document.getElementById('title').textContent = title;
-        }
-      })
-      .catch(err => {
-        console.error(err);
-        document.getElementById('content').innerHTML = 
-          `<div class="error">Error loading data: ${err.message}</div>`;
-        document.getElementById('title').textContent = 'Error';
-      });
-  </script>
+
+    render();
+  })
+  .catch(err => {
+    document.getElementById('vw-content').innerHTML =
+      `<div class="vw-error">Error loading data from <code>${endpoint}</code>: ${err.message}</div>`;
+    document.getElementById('vw-title').textContent = 'Error';
+  });
+</script>
 </body>
 </html>
