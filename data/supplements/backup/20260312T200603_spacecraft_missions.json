@@ -8,8 +8,8 @@
       "launch_site": "Volgograd Launch Station (presently in Russia)",
       "launch_vehicle": "C-1 Intercosmos",
       "orbit": "563 x 619 km",
-      "orbit_type": "LEO",
-      "altitude_km": 589.5,
+      "orbit_type": null,
+      "altitude_km": null,
       "inclination_deg": 50.7,
       "mass_kg": 360.0,
       "power_watts": 46.0,
@@ -17,11 +17,7 @@
       "status": "decommissioned",
       "payloads": "X-ray Astronomy Aeronomy & Solar Physics",
       "stabilization": "Spinstabilize",
-      "propulsion": null,
-      "_sources": {
-        "orbit_type": "gcat",
-        "altitude_km": "gcat"
-      }
+      "propulsion": null
     },
     {
       "id": 2,
@@ -108,19 +104,15 @@
       "launch_vehicle": "Ariane -1(V-3)",
       "orbit": "Geosynchronous (102 deg. E longitude, over Indonesia)",
       "orbit_type": "GEO",
-      "altitude_km": 35851.0,
-      "inclination_deg": 0.28,
+      "altitude_km": null,
+      "inclination_deg": null,
       "mass_kg": 670.0,
       "power_watts": 210.0,
       "mission_life": "2 years",
       "status": "decommissioned",
       "payloads": "C - band transponders (Two)",
       "stabilization": "Three axis stabilized (biased momentum) with Momentum Wheels, Torquers & Hydrazine based Reaction control system",
-      "propulsion": null,
-      "_sources": {
-        "altitude_km": "gcat",
-        "inclination_deg": "gcat"
-      }
+      "propulsion": null
     },
     {
       "id": 7,
@@ -188,7 +180,7 @@
       "launch_vehicle": "Vostok",
       "orbit": "904 km Polar Sun-synchronous",
       "orbit_type": "SSO",
-      "altitude_km": 906.5,
+      "altitude_km": null,
       "inclination_deg": 99.08,
       "mass_kg": 975.0,
       "power_watts": 600.0,
@@ -196,10 +188,7 @@
       "status": "decommissioned",
       "payloads": "Three solid state Push Broom Cameras: LISS-1(72.5 metre resolution), LISS-2A and LISS-2B (36.25 metre resolution)",
       "stabilization": "Three axis body stabilized (zero momentum) with 4 Reactions Wheels, Magnetic torquers",
-      "propulsion": "Monopropellant Hydrazine based with sixteen 1 Newton thrusters",
-      "_sources": {
-        "altitude_km": "gcat"
-      }
+      "propulsion": "Monopropellant Hydrazine based with sixteen 1 Newton thrusters"
     },
     {
       "id": 11,
@@ -229,7 +218,7 @@
       "launch_vehicle": "Vostok",
       "orbit": "904 km Polar Sun Synchronous",
       "orbit_type": "SSO",
-      "altitude_km": 906.5,
+      "altitude_km": null,
       "inclination_deg": 99.08,
       "mass_kg": 975.0,
       "power_watts": 600.0,
@@ -237,10 +226,7 @@
       "status": "decommissioned",
       "payloads": "Three solid state Push Broom Cameras LlSS-1 (72.5 metre resolution), LlSS-2A and LlSS-2B (36.25 metre resolution)",
       "stabilization": "Three axis body stabilized (zero momentum) with 4 Reactions Wheels, Magnetic torquers",
-      "propulsion": "Monopropellant Hydrazine based with sixteen 1 Newton thrusters",
-      "_sources": {
-        "altitude_km": "gcat"
-      }
+      "propulsion": "Monopropellant Hydrazine based with sixteen 1 Newton thrusters"
     },
     {
       "id": 13,
@@ -250,21 +236,16 @@
       "launch_site": "SHAR Centre, Sriharikota, India",
       "launch_vehicle": "Augmented Satellite Launch Vehicle (ASLV)",
       "orbit": "267 x 391 km",
-      "orbit_type": "LEO",
-      "altitude_km": 331.5,
-      "inclination_deg": 46.04,
+      "orbit_type": null,
+      "altitude_km": null,
+      "inclination_deg": null,
       "mass_kg": 106.1,
       "power_watts": 45.0,
       "mission_life": "2 months",
       "status": "decommissioned",
       "payloads": "Gamma Ray Burst (GRB) experiment & Retarding Potential Analyser (RPA) experiment",
       "stabilization": "Spin stabilized with a Magnetic Torquer and Magnetic Bias Control",
-      "propulsion": null,
-      "_sources": {
-        "orbit_type": "gcat",
-        "altitude_km": "gcat",
-        "inclination_deg": "gcat"
-      }
+      "propulsion": null
     },
     {
       "id": 14,
@@ -275,7 +256,7 @@
       "launch_vehicle": "Ariane 4",
       "orbit": "Geostationary 74oE longitude",
       "orbit_type": "GEO",
-      "altitude_km": 35786.0,
+      "altitude_km": null,
       "inclination_deg": 0.0,
       "mass_kg": 1906.0,
       "power_watts": 1000.0,
@@ -283,10 +264,7 @@
       "status": "decommissioned",
       "payloads": "Transponders: 12 C-band (for FSS),6 ext. C-band (for FSS) 2 S-band (for BSS),1Data relay transponder (for met.data), 1 transponder for research and rescue, Very High Resolution radiometer (VHRR) for meteorological observation with 2 km resolution in the visible and 8 km resolution in the IR band",
       "stabilization": "Three axis body stabilized with two Momentum Wheels & one Reaction Wheel, Magnetic torquers",
-      "propulsion": "Integrated bipropellant system (MMH and N2 04) With sixteen 22 N thrusters and 440 LAM.",
-      "_sources": {
-        "altitude_km": "gcat"
-      }
+      "propulsion": "Integrated bipropellant system (MMH and N2 04) With sixteen 22 N thrusters and 440 LAM."
     },
     {
       "id": 15,
@@ -297,7 +275,7 @@
       "launch_vehicle": "Ariane 4",
       "orbit": "Geostationary 93.5o E",
       "orbit_type": "GEO",
-      "altitude_km": 35787.0,
+      "altitude_km": null,
       "inclination_deg": 0.0,
       "mass_kg": 1906.0,
       "power_watts": 1000.0,
@@ -305,10 +283,7 @@
       "status": "decommissioned",
       "payloads": "Transponders: 12C-band (for FSS),6 ext. C-band (for FSS) 2S-band (for BSS),1Data relay transponder (for met.data), 1 transponder for research and rescue, Very High Resolution radiometer (VHRR) for meteorological observation with 2 km resolution in the visible and 8 km resolution in the IR band",
       "stabilization": "Three axis body stabilized with two Momentum Wheels & one Reaction Wheel, Magnetic torquers",
-      "propulsion": "Integrated bipropellant system ( MMH and N2 04) With sixteen 22 N thrusters and 440 N LAM.",
-      "_sources": {
-        "altitude_km": "gcat"
-      }
+      "propulsion": "Integrated bipropellant system ( MMH and N2 04) With sixteen 22 N thrusters and 440 N LAM."
     },
     {
       "id": 16,
@@ -337,8 +312,8 @@
       "launch_site": "SHAR Centre,Sriharikota,India",
       "launch_vehicle": "Augmented Satellite Launch Vehicle (ASLV)",
       "orbit": "430 x 600 km.",
-      "orbit_type": "LEO",
-      "altitude_km": 675.5,
+      "orbit_type": null,
+      "altitude_km": null,
       "inclination_deg": 45.0,
       "mass_kg": 115.0,
       "power_watts": 45.0,
@@ -346,11 +321,7 @@
       "status": "decommissioned",
       "payloads": "Gamma Ray Burst (GRB) & Retarding Potential Analyser (RPA)",
       "stabilization": null,
-      "propulsion": "Monopropellant Hydrazine based with six 1 Newton thrusters",
-      "_sources": {
-        "orbit_type": "gcat",
-        "altitude_km": "gcat"
-      }
+      "propulsion": "Monopropellant Hydrazine based with six 1 Newton thrusters"
     },
     {
       "id": 18,
@@ -360,8 +331,8 @@
       "launch_site": "SHAR Centre, Sriharikota, India",
       "launch_vehicle": "PSLV-D2",
       "orbit": null,
-      "orbit_type": "LEO",
-      "altitude_km": 819.0,
+      "orbit_type": null,
+      "altitude_km": null,
       "inclination_deg": 98.68,
       "mass_kg": 804.0,
       "power_watts": 510.0,
@@ -369,11 +340,7 @@
       "status": "decommissioned",
       "payloads": "Two solid state Push Broom Cameras operating in four spectral bands in the visible and near-IR range using CCD arrays: LlSS-2A & LlSS-2B (Resolution: 32.74 metre)",
       "stabilization": "Three axis body stabilized with 4 Reaction Wheels, Magnetic torquers",
-      "propulsion": "4 tanks containing Monopropellant Hydrazine based with sixteen 1 N thrusters and one 11 N thruster",
-      "_sources": {
-        "orbit_type": "gcat",
-        "altitude_km": "gcat"
-      }
+      "propulsion": "4 tanks containing Monopropellant Hydrazine based with sixteen 1 N thrusters and one 11 N thruster"
     },
     {
       "id": 19,
@@ -384,7 +351,7 @@
       "launch_vehicle": "Ariane4",
       "orbit": "Geostationary 93.5 deg E",
       "orbit_type": "GEO",
-      "altitude_km": 35780.5,
+      "altitude_km": null,
       "inclination_deg": 0.0,
       "mass_kg": 2106.0,
       "power_watts": 1320.0,
@@ -392,10 +359,7 @@
       "status": "decommissioned",
       "payloads": "Transponders: 16C-band / extended C-band transponders (for FSS), 2 high power C-band transponders (for BSS), 1S-band transponder (for BSS),1C/S-band mobile communication transponder, 3 Ku-band transponders",
       "stabilization": "Three axis stabilized with two Momen'tum Wheels & one Reaction Wheel, Magnetic torquers",
-      "propulsion": "Integrated bipropellant system ( MMH and N2 04) With sixteen 22N thrusters and 440N LAM.",
-      "_sources": {
-        "altitude_km": "gcat"
-      }
+      "propulsion": "Integrated bipropellant system ( MMH and N2 04) With sixteen 22N thrusters and 440N LAM."
     },
     {
       "id": 20,
@@ -406,7 +370,7 @@
       "launch_vehicle": "Molniya",
       "orbit": "817 km Polar Sun-synchronous",
       "orbit_type": "SSO",
-      "altitude_km": 781.5,
+      "altitude_km": null,
       "inclination_deg": 98.69,
       "mass_kg": 1250.0,
       "power_watts": 809.0,
@@ -414,10 +378,7 @@
       "status": "decommissioned",
       "payloads": "Three solid state Push Broom Cameras: PAN (<6 metre solution )LlSS-3(23.6 metre resolution) and WiFS (189 metre resolution)",
       "stabilization": "Three axis body stabilized (zero momentum) with 4 Reaction Wheels, Magnetic torquer",
-      "propulsion": "Monopropellant Hydrazine based with sixteen 1 N thrusters & one 11N thrusters",
-      "_sources": {
-        "altitude_km": "gcat"
-      }
+      "propulsion": "Monopropellant Hydrazine based with sixteen 1 N thrusters & one 11N thrusters"
     },
     {
       "id": 21,
@@ -428,7 +389,7 @@
       "launch_vehicle": "Molniya",
       "orbit": "817 km Polar Sun-synchronous",
       "orbit_type": "SSO",
-      "altitude_km": 819.5,
+      "altitude_km": null,
       "inclination_deg": 98.69,
       "mass_kg": 1250.0,
       "power_watts": 809.0,
@@ -436,10 +397,7 @@
       "status": "decommissioned",
       "payloads": "Three solid state Push Broom Cameras: PAN (<6 metre solution )LlSS-3(23.6 metre resolution) and WiFS (189 metre resolution)",
       "stabilization": "Three axis body stabilized (zero momentum) with 4 Reaction Wheels, Magnetic torquer",
-      "propulsion": "Monopropellant Hydrazine based with sixteen 1 N thrusters & one 11N thrusters",
-      "_sources": {
-        "altitude_km": "gcat"
-      }
+      "propulsion": "Monopropellant Hydrazine based with sixteen 1 N thrusters & one 11N thrusters"
     },
     {
       "id": 22,
@@ -450,7 +408,7 @@
       "launch_vehicle": "PSLV-D3",
       "orbit": "817 km. Circular polar sun-synchronous with equatorial crossing at 10.30 am (descending node)",
       "orbit_type": "SSO",
-      "altitude_km": 832.5,
+      "altitude_km": null,
       "inclination_deg": 98.68,
       "mass_kg": 920.0,
       "power_watts": 817.0,
@@ -458,10 +416,7 @@
       "status": "decommissioned",
       "payloads": "WideField Sensor (WiFS), Modular Opto - electronic Scanner (MOS), Indian X-ray Astronomy Experiment (IXAE), C-band transponder(CBT)",
       "stabilization": "Three axis body stabilized",
-      "propulsion": "Combinations of bladder type and surface tension type mass expulsion monopropellant hydrazine system",
-      "_sources": {
-        "altitude_km": "gcat"
-      }
+      "propulsion": "Combinations of bladder type and surface tension type mass expulsion monopropellant hydrazine system"
     },
     {
       "id": 23,
@@ -472,7 +427,7 @@
       "launch_vehicle": "Arianev 4",
       "orbit": "Geostationary 93,.5deg.E",
       "orbit_type": "GEO",
-      "altitude_km": 35785.5,
+      "altitude_km": null,
       "inclination_deg": 0.0,
       "mass_kg": 2079.0,
       "power_watts": 1650.0,
@@ -480,10 +435,7 @@
       "status": "decommissioned",
       "payloads": "Transponders: 16C-band / extended C-band transponders (forFSS), 2 high power C-band transponders (for BSS), 1S-band transponder (for BSS),1C/S-band mobile communication transponder, 3 Ku-band transponders",
       "stabilization": "Three axis stabilized with two Momentum Wheels & one Reaction Wheel, Magnetic torquers",
-      "propulsion": "Integrated bipropellan stystem ( MMH and N2 04) With sixteen 22N thrusters and 440N LAM.",
-      "_sources": {
-        "altitude_km": "gcat"
-      }
+      "propulsion": "Integrated bipropellan stystem ( MMH and N2 04) With sixteen 22N thrusters and 440N LAM."
     },
     {
       "id": 24,
@@ -494,19 +446,15 @@
       "launch_vehicle": "Ariane – 42P",
       "orbit": "Geosynchronous (83 deg east longitude)",
       "orbit_type": "GEO",
-      "altitude_km": 35786.0,
-      "inclination_deg": 0.05,
+      "altitude_km": null,
+      "inclination_deg": null,
       "mass_kg": 2550.0,
       "power_watts": null,
       "mission_life": null,
       "status": "decommissioned",
       "payloads": null,
       "stabilization": null,
-      "propulsion": null,
-      "_sources": {
-        "altitude_km": "gcat",
-        "inclination_deg": "gcat"
-      }
+      "propulsion": null
     },
     {
       "id": 25,
@@ -536,7 +484,7 @@
       "launch_vehicle": "Ariane -5",
       "orbit": "Geostationary (83 deg East longitude)",
       "orbit_type": "GEO",
-      "altitude_km": 35786.0,
+      "altitude_km": null,
       "inclination_deg": 7.0,
       "mass_kg": 2070.0,
       "power_watts": 1712.0,
@@ -544,10 +492,7 @@
       "status": "unknown",
       "payloads": "12 extended C – band Transponders Five Ku band Transponders Mobile Satellite Services (MSS)",
       "stabilization": "3 – axis body stabilised biased momentum control system using earth sensors, sun sensors, inertial reference unit, momentum / reaction wheels, magnetic torquers and unified bi-propellant thrusters.",
-      "propulsion": "Liquid Apogee Motor with fuel and oxidizer stored in separate titanium tanks and pressurant in Kevlar wound titanium tank.",
-      "_sources": {
-        "altitude_km": "gcat"
-      }
+      "propulsion": "Liquid Apogee Motor with fuel and oxidizer stored in separate titanium tanks and pressurant in Kevlar wound titanium tank."
     },
     {
       "id": 27,
@@ -558,19 +503,15 @@
       "launch_vehicle": "GSLV – D1",
       "orbit": "Sun Synchronous Geo stationary orbit",
       "orbit_type": "GEO",
-      "altitude_km": 34762.5,
-      "inclination_deg": 0.97,
+      "altitude_km": null,
+      "inclination_deg": null,
       "mass_kg": 1530.0,
       "power_watts": null,
       "mission_life": null,
       "status": "unknown",
       "payloads": null,
       "stabilization": null,
-      "propulsion": null,
-      "_sources": {
-        "altitude_km": "gcat",
-        "inclination_deg": "gcat"
-      }
+      "propulsion": null
     },
     {
       "id": 28,
@@ -600,19 +541,15 @@
       "launch_vehicle": "Ariane5-V147",
       "orbit": "Geostationary (74o longitude)",
       "orbit_type": "GEO",
-      "altitude_km": 35786.0,
-      "inclination_deg": 0.1,
+      "altitude_km": null,
+      "inclination_deg": null,
       "mass_kg": 2650.0,
       "power_watts": 2765.0,
       "mission_life": "Very long",
       "status": "unknown",
       "payloads": "24 C band transponders 6 Extended C - band Transponders 2 S - band Transponders",
       "stabilization": null,
-      "propulsion": "Liquid Apogee Motor with fuel and oxidizer stored in separate titanium tanks and pressurant in Kevlar wound titanium tank.",
-      "_sources": {
-        "altitude_km": "gcat",
-        "inclination_deg": "gcat"
-      }
+      "propulsion": "Liquid Apogee Motor with fuel and oxidizer stored in separate titanium tanks and pressurant in Kevlar wound titanium tank."
     },
     {
       "id": 30,
@@ -623,19 +560,15 @@
       "launch_vehicle": "PSLV – C4",
       "orbit": "Geostationary (74 deg East longitude)",
       "orbit_type": "GEO",
-      "altitude_km": 35786.0,
-      "inclination_deg": 0.48,
+      "altitude_km": null,
+      "inclination_deg": null,
       "mass_kg": 1060.0,
       "power_watts": 550.0,
       "mission_life": "7 years",
       "status": "decommissioned",
       "payloads": "Very High Resolution Radiometer (VHRR) Data Relay Transponder (DRT)",
       "stabilization": null,
-      "propulsion": null,
-      "_sources": {
-        "altitude_km": "gcat",
-        "inclination_deg": "gcat"
-      }
+      "propulsion": null
     },
     {
       "id": 31,
@@ -646,19 +579,15 @@
       "launch_vehicle": "Ariane5-V160",
       "orbit": "Geostationary (93.5o E longitude)",
       "orbit_type": "GEO",
-      "altitude_km": 35786.0,
-      "inclination_deg": 0.03,
+      "altitude_km": null,
+      "inclination_deg": null,
       "mass_kg": 2950.0,
       "power_watts": 3100.0,
       "mission_life": "12 years",
       "status": "decommissioned",
       "payloads": "Communication payload - 12 C – band transponders, - 6 upper extended C band transponders - 6 Ku band transponders - 1 Satellite Aided Search & Rescue transponders Meteorological payload - Very High Resolution Radiometer (VHRR) with 2 km resolution in visible band and 8 km resolution in infrared and water vapour band - Charged Coupled Device (CCD) camera operating in visible, near infrared and shortwave infrared band with 1 km resolution. - Data Relay Transponders (DRT)",
       "stabilization": "3 – axis body stabilised in orbit using momentum and reaction wheels, solar flaps, magnetic torquers and eight 10 N and eight 22 N reaction control thrusters",
-      "propulsion": "440 N Liquid Apogee Motor with MON-3 (Mixed Oxides of Nitrogen) and MMH (Mono Methyl Hydrazine) for orbit raising",
-      "_sources": {
-        "altitude_km": "gcat",
-        "inclination_deg": "gcat"
-      }
+      "propulsion": "440 N Liquid Apogee Motor with MON-3 (Mixed Oxides of Nitrogen) and MMH (Mono Methyl Hydrazine) for orbit raising"
     },
     {
       "id": 32,
@@ -669,19 +598,15 @@
       "launch_vehicle": "GSLV–D2",
       "orbit": "Geostationary orbit (48oE longitude)",
       "orbit_type": "GEO",
-      "altitude_km": 35785.5,
-      "inclination_deg": 0.01,
+      "altitude_km": null,
+      "inclination_deg": null,
       "mass_kg": 1800.0,
       "power_watts": null,
       "mission_life": null,
       "status": "unknown",
       "payloads": null,
       "stabilization": null,
-      "propulsion": null,
-      "_sources": {
-        "altitude_km": "gcat",
-        "inclination_deg": "gcat"
-      }
+      "propulsion": null
     },
     {
       "id": 33,
@@ -692,19 +617,15 @@
       "launch_vehicle": "Ariane5-V162",
       "orbit": "Geostationary Orbit",
       "orbit_type": "GEO",
-      "altitude_km": 35785.5,
-      "inclination_deg": 0.04,
+      "altitude_km": null,
+      "inclination_deg": null,
       "mass_kg": 2775.0,
       "power_watts": null,
       "mission_life": null,
       "status": "unknown",
       "payloads": null,
       "stabilization": null,
-      "propulsion": null,
-      "_sources": {
-        "altitude_km": "gcat",
-        "inclination_deg": "gcat"
-      }
+      "propulsion": null
     },
     {
       "id": 34,
@@ -734,19 +655,15 @@
       "launch_vehicle": "GSLV-F01",
       "orbit": "Geostationary (74 o E longitude)",
       "orbit_type": "GEO",
-      "altitude_km": 35786.0,
-      "inclination_deg": 0.01,
+      "altitude_km": null,
+      "inclination_deg": null,
       "mass_kg": 1950.5,
       "power_watts": 2040.0,
       "mission_life": "7 years",
       "status": "decommissioned",
       "payloads": "Six upper extended C - band transponders Five lower Ku band transponders with regional beam coverage One lower Ku band National beam transponder with Indian main land coverage Ku beacon 12 C band high power transponders with extended coverage, covering southeast and northwest region apart from Indian main land using 63 W LTWTAs",
       "stabilization": "3 axis body stabilised in orbit using sensors, momentum and reaction wheels, magnetic torquers and eight 10 N & 22N reaction control thrusters.",
-      "propulsion": "440 N Liquid Apogee Motor with MON - 3 and MMH for orbit raising",
-      "_sources": {
-        "altitude_km": "gcat",
-        "inclination_deg": "gcat"
-      }
+      "propulsion": "440 N Liquid Apogee Motor with MON - 3 and MMH for orbit raising"
     },
     {
       "id": 36,
@@ -757,19 +674,15 @@
       "launch_vehicle": "PSLV- C6",
       "orbit": "618 km Polar Sun Synchronous",
       "orbit_type": "SSO",
-      "altitude_km": 621.0,
-      "inclination_deg": 97.91,
+      "altitude_km": null,
+      "inclination_deg": null,
       "mass_kg": 1560.0,
       "power_watts": 1100.0,
       "mission_life": "5 years",
       "status": "decommissioned",
       "payloads": "PAN FORE, PAN - AFT",
       "stabilization": "3-axis body stabillised using reaction wheels, Magnetic Torquers and Hydrazine Thrusters",
-      "propulsion": null,
-      "_sources": {
-        "altitude_km": "gcat",
-        "inclination_deg": "gcat"
-      }
+      "propulsion": null
     },
     {
       "id": 37,
@@ -799,19 +712,15 @@
       "launch_vehicle": "ARIANE5-V169",
       "orbit": "Geostationary ( 83o E)",
       "orbit_type": "GEO",
-      "altitude_km": 35787.5,
-      "inclination_deg": 0.04,
+      "altitude_km": null,
+      "inclination_deg": null,
       "mass_kg": 3081.0,
       "power_watts": 5922.0,
       "mission_life": "12 years",
       "status": "decommissioned",
       "payloads": null,
       "stabilization": null,
-      "propulsion": null,
-      "_sources": {
-        "altitude_km": "gcat",
-        "inclination_deg": "gcat"
-      }
+      "propulsion": null
     },
     {
       "id": 39,
@@ -822,19 +731,15 @@
       "launch_vehicle": "PSLV- C7",
       "orbit": "Polar Sun Synchronous",
       "orbit_type": "SSO",
-      "altitude_km": 628.5,
-      "inclination_deg": 97.94,
+      "altitude_km": null,
+      "inclination_deg": null,
       "mass_kg": 650.0,
       "power_watts": 900.0,
       "mission_life": "5 years",
       "status": "decommissioned",
       "payloads": "Panchromatic Camera",
       "stabilization": "3 - axis body stabilised using high torque reaction wheels, magnetic torquers and thrusters",
-      "propulsion": null,
-      "_sources": {
-        "altitude_km": "gcat",
-        "inclination_deg": "gcat"
-      }
+      "propulsion": null
     },
     {
       "id": 40,
@@ -845,19 +750,15 @@
       "launch_vehicle": "Ariane5",
       "orbit": "Geostationary (93.5 o E Longitude)",
       "orbit_type": "GEO",
-      "altitude_km": 35747.0,
-      "inclination_deg": 0.08,
+      "altitude_km": null,
+      "inclination_deg": null,
       "mass_kg": 3025.0,
       "power_watts": 5859.0,
       "mission_life": "12 years",
       "status": "decommissioned",
       "payloads": "12 Ku band high power transponders covering Indian main land using 140W radiatively cooled TWTAs.",
       "stabilization": "It uses 3 earth sensors, 2 digital sun sensors, 8 coarse analog sun sensors, 3 solar panel sun sensors and one sensor processing electronics. The wheels and wheel drive electronics were imported with indigenous wheel interface module to interface the wheel drive electronics and AOCE.",
-      "propulsion": "The propulsion system is employing 16 thrusters, 4 each located on east, west and AY sides and 2 each on north and south sides. There is one 440 N liquid apogee motor (using Mono Methyl Hydrazine (MMH) as fuel and oxides of Nitrogen (MON3 as oxidizer) and three pressurant tanks mounted on the LAM deck.",
-      "_sources": {
-        "altitude_km": "gcat",
-        "inclination_deg": "gcat"
-      }
+      "propulsion": "The propulsion system is employing 16 thrusters, 4 each located on east, west and AY sides and 2 each on north and south sides. There is one 440 N liquid apogee motor (using Mono Methyl Hydrazine (MMH) as fuel and oxides of Nitrogen (MON3 as oxidizer) and three pressurant tanks mounted on the LAM deck."
     },
     {
       "id": 41,
@@ -868,19 +769,15 @@
       "launch_vehicle": "GSLV-F04",
       "orbit": "Geosynchronous (74° E)",
       "orbit_type": "GEO",
-      "altitude_km": 35630.5,
-      "inclination_deg": 0.15,
+      "altitude_km": null,
+      "inclination_deg": null,
       "mass_kg": 2130.0,
       "power_watts": 3000.0,
       "mission_life": "12 years",
       "status": "decommissioned",
       "payloads": null,
       "stabilization": null,
-      "propulsion": null,
-      "_sources": {
-        "altitude_km": "gcat",
-        "inclination_deg": "gcat"
-      }
+      "propulsion": null
     },
     {
       "id": 42,
@@ -891,7 +788,7 @@
       "launch_vehicle": "PSLV- C9",
       "orbit": "635 km, Polar Sun Synchronous",
       "orbit_type": "SSO",
-      "altitude_km": 627.0,
+      "altitude_km": null,
       "inclination_deg": 97.94,
       "mass_kg": 690.0,
       "power_watts": 900.0,
@@ -899,10 +796,7 @@
       "status": "decommissioned",
       "payloads": "Panchromatic Camera",
       "stabilization": "3 – axis body stabilised using high torque reaction wheels, magnetic torquers and hydrogen thrusters",
-      "propulsion": null,
-      "_sources": {
-        "altitude_km": "gcat"
-      }
+      "propulsion": null
     },
     {
       "id": 43,
@@ -913,19 +807,15 @@
       "launch_vehicle": "PSLV - C11",
       "orbit": "100 km x 100 km : Lunar Orbit",
       "orbit_type": "Lunar",
-      "altitude_km": 81770.5,
-      "inclination_deg": 17.97,
+      "altitude_km": null,
+      "inclination_deg": null,
       "mass_kg": 1380.0,
       "power_watts": 700.0,
       "mission_life": "2 years",
       "status": "decommissioned",
       "payloads": null,
       "stabilization": "3 - axis stabilised using reaction wheel and attitude control thrusters, sun sensors, star sensors, fibre optic gyros and accelerometers for attitude determination.",
-      "propulsion": null,
-      "_sources": {
-        "altitude_km": "gcat",
-        "inclination_deg": "gcat"
-      }
+      "propulsion": null
     },
     {
       "id": 44,
@@ -955,7 +845,7 @@
       "launch_vehicle": "PSLV- C15",
       "orbit": "630 kms, Polar Sun Synchronous",
       "orbit_type": "SSO",
-      "altitude_km": 631.0,
+      "altitude_km": null,
       "inclination_deg": 97.71,
       "mass_kg": 694.0,
       "power_watts": 930.0,
@@ -963,10 +853,7 @@
       "status": "unknown",
       "payloads": "Panchromatic Camera",
       "stabilization": "3 – axis body stabilised based on inputs from star sensors and gyros using Reaction wheels, Magnetic Torquers and Hydrazine Thrusters",
-      "propulsion": null,
-      "_sources": {
-        "altitude_km": "gcat"
-      }
+      "propulsion": null
     },
     {
       "id": 46,
@@ -1015,19 +902,15 @@
       "launch_vehicle": "Ariane-5 VA-202",
       "orbit": "Geosynchronous (55° E)",
       "orbit_type": "GEO",
-      "altitude_km": 35786.5,
-      "inclination_deg": 0.12,
+      "altitude_km": null,
+      "inclination_deg": null,
       "mass_kg": 3093.0,
       "power_watts": 6242.0,
       "mission_life": ">12 years",
       "status": "decommissioned",
       "payloads": null,
       "stabilization": "3-axis body stabilised in orbit using Earth Sensors, Sun Sensors, Momentum and Reaction Wheels, Magnetic Torquers and eight 10 Newton and eight 22 Newton bipropellant thrusters",
-      "propulsion": "440 Newton Liquid Apogee Motors (LAM) with mono Methyl Hydrazine (MMH) as fuel and Mixed oxides of Nitrogen (MON-3) as oxidizer for orbit raising.",
-      "_sources": {
-        "altitude_km": "gcat",
-        "inclination_deg": "gcat"
-      }
+      "propulsion": "440 Newton Liquid Apogee Motors (LAM) with mono Methyl Hydrazine (MMH) as fuel and Mixed oxides of Nitrogen (MON-3) as oxidizer for orbit raising."
     },
     {
       "id": 49,
@@ -1038,19 +921,15 @@
       "launch_vehicle": "PSLV-C17",
       "orbit": "Geosynchronous (83° longitude)",
       "orbit_type": "GEO",
-      "altitude_km": 35701.0,
-      "inclination_deg": 0.17,
+      "altitude_km": null,
+      "inclination_deg": null,
       "mass_kg": 1410.0,
       "power_watts": 1430.0,
       "mission_life": "~8 years",
       "status": "decommissioned",
       "payloads": null,
       "stabilization": "3-axis body stabilised in orbit using Earth Sensors, Sun Sensors, Momentum and Reaction Wheels, Magnetic Torquers and eight 10 Newton and eight 22 Newton bipropellant thrusters",
-      "propulsion": "440 Newton Liquid Apogee Motors (LAM) with Mono Methyl Hydrazine (MMH) as fuel and Mixed oxides of Nitrogen (MON-3) as oxidizer for orbit raising.",
-      "_sources": {
-        "altitude_km": "gcat",
-        "inclination_deg": "gcat"
-      }
+      "propulsion": "440 Newton Liquid Apogee Motors (LAM) with Mono Methyl Hydrazine (MMH) as fuel and Mixed oxides of Nitrogen (MON-3) as oxidizer for orbit raising."
     },
     {
       "id": 50,
@@ -1099,19 +978,15 @@
       "launch_vehicle": "Ariane-5 VA-209",
       "orbit": "Geostationary (83° East longitude), co-located with INSAT-4A and GSAT-12",
       "orbit_type": "GEO",
-      "altitude_km": 35786.0,
-      "inclination_deg": 0.09,
+      "altitude_km": null,
+      "inclination_deg": null,
       "mass_kg": 3400.0,
       "power_watts": 6474.0,
       "mission_life": "15 years",
       "status": "active",
       "payloads": null,
       "stabilization": "3-axis body stabilised in orbit using Earth Sensors, Sun Sensors, Momentum and Reaction Wheels, Magnetic Torquers and eight 10 Newton and eight 22 Newton bipropellant thrusters",
-      "propulsion": "440 Newton Liquid Apogee Motors (LAM) with Mono Methyl Hydrazine (MMH) as fuel and Mixed oxides of Nitrogen (MON-3) as oxidizer for orbit raising.",
-      "_sources": {
-        "altitude_km": "gcat",
-        "inclination_deg": "gcat"
-      }
+      "propulsion": "440 Newton Liquid Apogee Motors (LAM) with Mono Methyl Hydrazine (MMH) as fuel and Mixed oxides of Nitrogen (MON-3) as oxidizer for orbit raising."
     },
     {
       "id": 53,
@@ -1160,19 +1035,15 @@
       "launch_vehicle": "Ariane-5 VA-214",
       "orbit": "Geostationary, 82 deg E Longitude",
       "orbit_type": "GEO",
-      "altitude_km": 35633.0,
-      "inclination_deg": 0.26,
+      "altitude_km": null,
+      "inclination_deg": null,
       "mass_kg": 2060.0,
       "power_watts": 1164.0,
       "mission_life": "7 years",
       "status": "decommissioned",
       "payloads": null,
       "stabilization": "3-asix body stabilized in orbit using Sun Sensors, Star Sensors, gyroscopes, Momentum and Reaction Wheels, Magnetic Torquers and thrusters",
-      "propulsion": "440 Newton Liquid Apogee Motor (LAM) and twelve 22 Newton thrusters with Mono Methyl Hydrazine (MMH) as fuel and mixed Oxides of Nitrogen (MON-3) as oxidizer",
-      "_sources": {
-        "altitude_km": "gcat",
-        "inclination_deg": "gcat"
-      }
+      "propulsion": "440 Newton Liquid Apogee Motor (LAM) and twelve 22 Newton thrusters with Mono Methyl Hydrazine (MMH) as fuel and mixed Oxides of Nitrogen (MON-3) as oxidizer"
     },
     {
       "id": 56,
@@ -1202,19 +1073,15 @@
       "launch_vehicle": "GSLV-D5",
       "orbit": "74 deg East longitude in geostationary orbit",
       "orbit_type": "GEO",
-      "altitude_km": 35605.5,
-      "inclination_deg": 0.26,
+      "altitude_km": null,
+      "inclination_deg": null,
       "mass_kg": 1982.0,
       "power_watts": 2600.0,
       "mission_life": "12 years",
       "status": "active",
       "payloads": null,
       "stabilization": "Momentum biased 3-axis stabilized mode",
-      "propulsion": "Bi propellant-Mono Methyl Hydrazine and Mixed Oxides of Nitrogen (MON-3)",
-      "_sources": {
-        "altitude_km": "gcat",
-        "inclination_deg": "gcat"
-      }
+      "propulsion": "Bi propellant-Mono Methyl Hydrazine and Mixed Oxides of Nitrogen (MON-3)"
     },
     {
       "id": 58,
@@ -1244,27 +1111,23 @@
       "launch_vehicle": "Ariane-5 VA-227",
       "orbit": "Geostationary (93.5° East longitude)Co-located with INSAT-3A and INSAT-4B",
       "orbit_type": "GEO",
-      "altitude_km": 35702.5,
-      "inclination_deg": 0.1,
+      "altitude_km": null,
+      "inclination_deg": null,
       "mass_kg": 3164.0,
       "power_watts": 6200.0,
       "mission_life": "12 years",
       "status": "active",
       "payloads": null,
       "stabilization": null,
-      "propulsion": "Bi- propellant System",
-      "_sources": {
-        "altitude_km": "gcat",
-        "inclination_deg": "gcat"
-      }
+      "propulsion": "Bi- propellant System"
     },
     {
       "id": 60,
       "name": "RISAT-2BR1",
       "mission_type": null,
-      "launch_date": "2019-01-01",
+      "launch_date": null,
       "launch_site": null,
-      "launch_vehicle": "PSLV-QL",
+      "launch_vehicle": null,
       "orbit": null,
       "orbit_type": "LEO",
       "altitude_km": 576.0,
@@ -1275,19 +1138,15 @@
       "status": "unknown",
       "payloads": "X-Band Radar",
       "stabilization": null,
-      "propulsion": null,
-      "_sources": {
-        "launch_date": "gcat",
-        "launch_vehicle": "gcat"
-      }
+      "propulsion": null
     },
     {
       "id": 61,
       "name": "Cartosat-3",
       "mission_type": null,
-      "launch_date": "2019-01-01",
+      "launch_date": null,
       "launch_site": null,
-      "launch_vehicle": "PSLV-XL",
+      "launch_vehicle": null,
       "orbit": null,
       "orbit_type": "LEO",
       "altitude_km": 509.0,
@@ -1298,46 +1157,34 @@
       "status": "unknown",
       "payloads": null,
       "stabilization": null,
-      "propulsion": null,
-      "_sources": {
-        "launch_date": "gcat",
-        "launch_vehicle": "gcat"
-      }
+      "propulsion": null
     },
     {
       "id": 62,
       "name": "GSAT-6",
       "mission_type": null,
-      "launch_date": "2015-01-01",
+      "launch_date": null,
       "launch_site": null,
-      "launch_vehicle": "GSLV Mk II",
+      "launch_vehicle": null,
       "orbit": null,
-      "orbit_type": "GEO",
-      "altitude_km": 35785.5,
-      "inclination_deg": 1.13,
-      "mass_kg": 2117.0,
+      "orbit_type": null,
+      "altitude_km": null,
+      "inclination_deg": null,
+      "mass_kg": null,
       "power_watts": 3100.0,
       "mission_life": "9 years",
       "status": "unknown",
       "payloads": "i. S-band payload with five spot beams covering India for user links ii. C-band payload with one beam covering India for hub links S-band payload uses 6 m unfurlable antenna and C-band uses 0.8 m antenna.",
       "stabilization": "Momentum biased 3-axis stabilised",
-      "propulsion": null,
-      "_sources": {
-        "launch_date": "gcat",
-        "launch_vehicle": "gcat",
-        "orbit_type": "gcat",
-        "mass_kg": "gcat",
-        "altitude_km": "gcat",
-        "inclination_deg": "gcat"
-      }
+      "propulsion": null
     },
     {
       "id": 63,
       "name": "RISAT-2",
       "mission_type": null,
-      "launch_date": "2009-01-01",
+      "launch_date": null,
       "launch_site": null,
-      "launch_vehicle": "PSLV",
+      "launch_vehicle": null,
       "orbit": null,
       "orbit_type": "LEO",
       "altitude_km": 550.0,
@@ -1345,39 +1192,29 @@
       "mass_kg": 300.0,
       "power_watts": null,
       "mission_life": null,
-      "status": "decommissioned",
+      "status": "unknown",
       "payloads": null,
       "stabilization": null,
-      "propulsion": null,
-      "_sources": {
-        "launch_date": "gcat",
-        "launch_vehicle": "gcat",
-        "status": "gcat"
-      }
+      "propulsion": null
     },
     {
       "id": 64,
       "name": "IMS-1",
       "mission_type": null,
-      "launch_date": "2008-01-01",
+      "launch_date": null,
       "launch_site": null,
-      "launch_vehicle": "PSLV",
+      "launch_vehicle": null,
       "orbit": "Polar Sun Synchronous",
       "orbit_type": "SSO",
       "altitude_km": 635.0,
-      "inclination_deg": 98.0,
+      "inclination_deg": null,
       "mass_kg": 83.0,
       "power_watts": 220.0,
       "mission_life": "2 years",
       "status": "unknown",
       "payloads": null,
       "stabilization": "Star Sensor, Miniature Sun Sensors, Magnetometers Gyros, Miniature Micro Reaction Wheels, Magnetic Torquers, single 1 N Hydrazine Thruster",
-      "propulsion": null,
-      "_sources": {
-        "launch_date": "gcat",
-        "launch_vehicle": "gcat",
-        "inclination_deg": "gcat"
-      }
+      "propulsion": null
     }
   ]
 }

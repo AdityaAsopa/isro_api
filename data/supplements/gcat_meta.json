@@ -1,0 +1,11 @@
+{
+  "source": "GCAT -- General Catalogue of Artificial Space Objects",
+  "maintainer": "Jonathan C. McDowell",
+  "url": "https://planet4589.org/space/gcat/",
+  "license": "CC BY 4.0",
+  "downloaded_at": "2026-03-12T20:00:06.911659+00:00",
+  "satcat_url": "https://planet4589.org/space/gcat/tsv/cat/satcat.tsv",
+  "launch_url": "https://planet4589.org/space/gcat/tsv/launch/launch.tsv",
+  "indian_sat_count": 597,
+  "enrichment_count": 202
+}

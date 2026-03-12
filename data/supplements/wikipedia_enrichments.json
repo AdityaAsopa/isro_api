@@ -1,0 +1,62 @@
+{
+  "rohini technology payload (rtp)": {
+    "name_raw": "Rohini Technology Payload (RTP)",
+    "wikipedia_title": "Rohini (satellite)",
+    "mass_kg": null,
+    "orbit_type": null,
+    "altitude_km": null,
+    "inclination_deg": null,
+    "launch_date": null,
+    "status": "decommissioned",
+    "launch_vehicle": null,
+    "mission_life": null
+  },
+  "rohini satellite rs 1": {
+    "name_raw": "Rohini Satellite RS-1",
+    "wikipedia_title": "Rohini (satellite)",
+    "mass_kg": null,
+    "orbit_type": null,
+    "altitude_km": null,
+    "inclination_deg": null,
+    "launch_date": null,
+    "status": "decommissioned",
+    "launch_vehicle": null,
+    "mission_life": null
+  },
+  "rohini satellite rs d1": {
+    "name_raw": "Rohini Satellite RS-D1",
+    "wikipedia_title": "Rohini (satellite)",
+    "mass_kg": null,
+    "orbit_type": null,
+    "altitude_km": null,
+    "inclination_deg": null,
+    "launch_date": null,
+    "status": "decommissioned",
+    "launch_vehicle": null,
+    "mission_life": null
+  },
+  "rohini satellite rs d2": {
+    "name_raw": "Rohini Satellite RS-D2",
+    "wikipedia_title": "Rohini (satellite)",
+    "mass_kg": null,
+    "orbit_type": null,
+    "altitude_km": null,
+    "inclination_deg": null,
+    "launch_date": null,
+    "status": "decommissioned",
+    "launch_vehicle": null,
+    "mission_life": null
+  },
+  "crew module atmospheric re entry experiment (care)": {
+    "name_raw": "Crew module Atmospheric Re-entry Experiment (CARE)",
+    "wikipedia_title": "Gaganyaan",
+    "mass_kg": null,
+    "orbit_type": null,
+    "altitude_km": null,
+    "inclination_deg": null,
+    "launch_date": null,
+    "status": null,
+    "launch_vehicle": null,
+    "mission_life": "7 days"
+  }
+}

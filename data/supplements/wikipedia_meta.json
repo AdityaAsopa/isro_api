@@ -1,0 +1,13 @@
+{
+  "source": "Wikipedia",
+  "license": "CC BY-SA 3.0",
+  "attribution": "Wikipedia contributors, via MediaWiki API",
+  "api_url": "https://en.wikipedia.org/w/api.php",
+  "downloaded_at": "2026-03-12T20:05:04.554386+00:00",
+  "names_queried": 110,
+  "enriched": 5,
+  "revision_ids": {
+    "Rohini (satellite)": 1325814975,
+    "Gaganyaan": 1342626064
+  }
+}
