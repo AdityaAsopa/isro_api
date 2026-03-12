@@ -161,6 +161,50 @@ PR: https://github.com/isro/api/pull/71
 
 ---
 
+### Dev batch — Four new platform endpoints (timeline, launches, families, search)
+
+**Branch:** `dev` (fork: AdityaAsopa/iso_api)
+
+---
+
+The ISRO API now has four new endpoints that turn static JSON into a queryable platform.
+
+**`/api/timeline`** — "On this day in ISRO history"
+
+```text
+/api/timeline?date=04-19  → April 19: Aryabhata launched (1975)
+/api/timeline?year=1980   → All events in 1980
+/api/timeline?range=2000,2023 → 23-year sweep
+```
+
+Aggregates launch dates from missions, spacecrafts, and customer satellites into one chronological stream. Exactly what every classroom project, social media bot, or "this day in space" app needs.
+
+**`/api/launches`** — Unified launch manifest
+
+The world-record 104-satellite launch (PSLV-C37, February 2017) was previously scattered across three data files. Now it's one event — `primary_payload: "Cartosat-2D"`, `co_passengers: [...]`, `total_payloads: 104`. Filter by `?year=`, `?vehicle_family=PSLV`, or `?outcome=success`.
+
+**`/api/families`** — Evolutionary lineage
+
+ISRO's real achievement isn't individual missions — it's the series. INSAT has been flying since 1982. IRNSS/NavIC reached full constellation in 2016. Cartosat-3 in 2019 delivers sub-metre resolution. This endpoint groups all 113 spacecraft into 15 named families, each with a description of its role in India's space programme.
+
+**`/api/search?q=`** — Full-text search across everything
+
+```text
+/api/search?q=chandrayaan    → matches across spacecrafts + missions
+/api/search?q=Karnataka      → find ISRO centres in Karnataka
+/api/search?q=Germany        → all German customer satellites
+```
+
+Case-insensitive, cross-collection, with `match_field` so you know why each result matched. Plus `/api/health` for uptime monitoring.
+
+44 new tests. Updated dashboard with cards for each new endpoint.
+
+Everything on the fork dev branch while the 7 upstream PRs are reviewed.
+
+#ISRO #OpenSource #API #India #SpaceTech #OpenData
+
+---
+
 ### PR #6 — JSON Schema validation and CI data integrity checks
 **PR:** https://github.com/isro/api/pull/70
 **Branch:** `feat/json-schema-validation`
@@ -248,6 +292,46 @@ To keep it all honest: JSON Schemas for every data file. A CI workflow that vali
 The ISRO API serves data about one of the most ambitious space programs on the planet. It deserves to be reliable, queryable, and well-tested.
 
 github.com/isro/api — open for review and contribution.
+
+**18/**
+While the PRs are under review, development continues on the fork. Four new endpoints just landed on the `dev` branch.
+
+**19/**
+`/api/timeline` — every ISRO launch event, queryable by date.
+
+`?date=04-19` → what launched on April 19? (Aryabhata, 1975)
+`?year=2023` → everything ISRO launched in 2023
+`?range=1975,1999` → the first 25 years
+
+Cross-references missions + spacecrafts + customer satellites. All dates already ISO 8601 — so this was just filtering.
+
+**20/**
+`/api/launches` — unified launch manifest.
+
+PSLV-C37 (Feb 2017, 104 satellites) was scattered across 3 files. Now it's one object: primary payload, co-passengers array, total_payloads: 104, total_mass_kg, outcome.
+
+Filter: `?vehicle_family=PSLV`, `?year=2017`, `?outcome=success`
+
+**21/**
+`/api/families?name=INSAT` — satellite family trees.
+
+ISRO's strength is iterative engineering. The INSAT series has flown since 1982. IRNSS/NavIC is a 7-satellite constellation. Cartosat evolved from 2.5m to sub-metre resolution over 15 years.
+
+15 families. Each with a description, member count, and chronologically sorted members.
+
+**22/**
+`/api/search?q=chandrayaan` — full-text search across all 5 collections.
+
+One query, every collection. Response includes `match_field` so you know why each result matched.
+
+`?collection=centres` to narrow scope. 400 on missing `?q`. Empty results return `count: 0`, not 404.
+
+**23/**
+`/api/health` — for uptime monitoring. Status, timestamp, per-collection record counts.
+
+44 new tests. Dashboard updated with cards for every new endpoint, "New" badges, feature pills.
+
+The fork is at: github.com/AdityaAsopa/iso_api · branch: `dev`
 
 #ISRO #OpenSource #India #SpaceTech #OpenData #DataEngineering #API
 
