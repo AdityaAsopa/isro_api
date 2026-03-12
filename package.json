@@ -2,18 +2,22 @@
     "name": "isro-api",
     "version": "0.1.0",
     "description": "API for ISRO",
-    "main": "index.js",
+    "main": "server.js",
     "repository": "isro.vercel.app",
     "author": "isro",
     "license": "MIT",
     "scripts": {
+        "start": "node server.js",
+        "dev": "node server.js",
         "test": "jest --testPathPattern=tests/",
         "validate": "node scripts/validate_schemas.js"
     },
     "jest": {
         "testEnvironment": "node"
     },
-    "dependencies": {},
+    "dependencies": {
+        "express": "^4.18.2"
+    },
     "devDependencies": {
         "ajv": "^8.17.1",
         "jest": "^29.7.0"

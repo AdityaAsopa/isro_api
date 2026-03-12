@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ISRO API Data Viewer</title>
+  <link href="style.css" rel="stylesheet" type="text/css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    .viewer-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 40px 20px;
+      min-height: 100vh;
+    }
+    
+    .viewer-header {
+      margin-bottom: 30px;
+    }
+    
+    .viewer-title {
+      font-size: 32px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 10px;
+    }
+    
+    .viewer-subtitle {
+      color: #94a3b8;
+      font-size: 16px;
+    }
+    
+    .back-link {
+      display: inline-block;
+      color: #06b8ee;
+      text-decoration: none;
+      margin-bottom: 20px;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+    
+    .back-link:hover {
+      color: #0ea5e9;
+    }
+    
+    .controls {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 25px;
+      flex-wrap: wrap;
+    }
+    
+    .search-box {
+      flex: 1;
+      min-width: 250px;
+      padding: 12px 16px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      color: #fff;
+      font-family: 'Poppins', sans-serif;
+      font-size: 14px;
+    }
+    
+    .search-box::placeholder {
+      color: #64748b;
+    }
+    
+    .filter-select {
+      padding: 12px 16px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      color: #fff;
+      font-family: 'Poppins', sans-serif;
+      font-size: 14px;
+      cursor: pointer;
+    }
+    
+    .data-table {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    
+    .table-wrapper {
+      overflow-x: auto;
+    }
+    
+    .data-table table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    
+    .data-table th {
+      background: rgba(6, 184, 238, 0.1);
+      color: #06b8ee;
+      padding: 14px 16px;
+      text-align: left;
+      font-weight: 600;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .data-table td {
+      padding: 14px 16px;
+      color: #cbd5e1;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      font-size: 14px;
+    }
+    
+    .data-table tr:hover {
+      background: rgba(255, 255, 255, 0.02);
+    }
+    
+    .data-table tr:last-child td {
+      border-bottom: none;
+    }
+    
+    .badge {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+    
+    .badge-active { background: #22c55e; color: #fff; }
+    .badge-decommissioned { background: #64748b; color: #fff; }
+    .badge-failed { background: #ef4444; color: #fff; }
+    .badge-success { background: #22c55e; color: #fff; }
+    .badge-geo { background: #06b8ee; color: #fff; }
+    .badge-sso { background: #a855f7; color: #fff; }
+    .badge-leo { background: #22c55e; color: #fff; }
+    .badge-lunar { background: #f59e0b; color: #fff; }
+    .badge-interplanetary { background: #f97316; color: #fff; }
+    
+    .loading {
+      text-align: center;
+      padding: 60px 20px;
+      color: #94a3b8;
+      font-size: 18px;
+    }
+    
+    .error {
+      background: rgba(239, 68, 68, 0.1);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      border-radius: 8px;
+      padding: 20px;
+      color: #fca5a5;
+      margin: 20px 0;
+    }
+    
+    .count-badge {
+      display: inline-block;
+      background: rgba(6, 184, 238, 0.2);
+      color: #06b8ee;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: 600;
+      margin-left: 10px;
+    }
+
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    .data-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      padding: 20px;
+      transition: transform 0.2s, border-color 0.2s;
+    }
+
+    .data-card:hover {
+      transform: translateY(-2px);
+      border-color: rgba(6, 184, 238, 0.3);
+    }
+
+    .data-card h3 {
+      color: #06b8ee;
+      font-size: 18px;
+      margin-bottom: 12px;
+      font-weight: 600;
+    }
+
+    .data-card p {
+      color: #cbd5e1;
+      font-size: 14px;
+      margin: 8px 0;
+    }
+
+    .data-card .label {
+      color: #64748b;
+      font-size: 12px;
+      text-transform: uppercase;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+  </style>
+</head>
+<body>
+  <div class="viewer-container">
+    <a href="/" class="back-link">← Back to Dashboard</a>
+    
+    <div class="viewer-header">
+      <h1 class="viewer-title" id="title">Loading...</h1>
+      <p class="viewer-subtitle" id="endpoint-url"></p>
+    </div>
+    
+    <div class="controls" id="controls" style="display: none;">
+      <input type="text" class="search-box" id="search" placeholder="Search...">
+    </div>
+    
+    <div id="content">
+      <div class="loading">Loading data...</div>
+    </div>
+  </div>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const endpoint = params.get('endpoint') || '/api';
+    
+    document.getElementById('endpoint-url').textContent = endpoint;
+    
+    let allData = [];
+    let currentView = 'table';
+    
+    function getBadgeClass(field, value) {
+      const val = String(value).toLowerCase();
+      
+      if (field === 'status') {
+        if (val === 'active') return 'badge-active';
+        if (val === 'decommissioned') return 'badge-decommissioned';
+        if (val === 'failed') return 'badge-failed';
+      }
+      
+      if (field === 'orbit_type') {
+        if (val === 'geo') return 'badge-geo';
+        if (val === 'sso') return 'badge-sso';
+        if (val === 'leo') return 'badge-leo';
+        if (val === 'lunar') return 'badge-lunar';
+        if (val === 'interplanetary') return 'badge-interplanetary';
+      }
+      
+      if (field === 'outcome' && val === 'success') return 'badge-success';
+      
+      return '';
+    }
+    
+    function formatValue(key, value) {
+      if (value === null || value === undefined) return '—';
+      
+      const badgeFields = ['status', 'orbit_type', 'mission_type', 'outcome'];
+      if (badgeFields.includes(key)) {
+        const badgeClass = getBadgeClass(key, value);
+        return `<span class="badge ${badgeClass}">${value}</span>`;
+      }
+      
+      if (typeof value === 'object') {
+        return JSON.stringify(value);
+      }
+      
+      return value;
+    }
+    
+    function renderTable(data, title) {
+      if (!Array.isArray(data) || data.length === 0) {
+        return '<div class="loading">No data available</div>';
+      }
+      
+      const keys = Object.keys(data[0]).filter(k => k !== 'id');
+      
+      let html = `
+        <div class="data-table">
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  ${keys.map(k => `<th>${k.replace(/_/g, ' ')}</th>`).join('')}
+                </tr>
+              </thead>
+              <tbody>
+      `;
+      
+      data.forEach(item => {
+        html += '<tr>';
+        keys.forEach(key => {
+          html += `<td>${formatValue(key, item[key])}</td>`;
+        });
+        html += '</tr>';
+      });
+      
+      html += '</tbody></table></div></div>';
+      
+      document.getElementById('title').innerHTML = `${title} <span class="count-badge">${data.length} items</span>`;
+      
+      return html;
+    }
+    
+    function renderCards(data, title) {
+      if (!Array.isArray(data) || data.length === 0) {
+        return '<div class="loading">No data available</div>';
+      }
+      
+      let html = '<div class="card-grid">';
+      
+      data.forEach(item => {
+        const nameField = item.name || item.spacecraft_name || item.vehicle || item.centre_name || item.country || 'Item';
+        html += `<div class="data-card">`;
+        html += `<h3>${nameField}</h3>`;
+        
+        Object.entries(item).forEach(([key, value]) => {
+          if (key !== 'id' && key !== 'name' && key !== 'spacecraft_name' && key !== 'vehicle' && key !== 'centre_name') {
+            html += `<p><span class="label">${key.replace(/_/g, ' ')}</span><br>${formatValue(key, value)}</p>`;
+          }
+        });
+        
+        html += '</div>';
+      });
+      
+      html += '</div>';
+      
+      document.getElementById('title').innerHTML = `${title} <span class="count-badge">${data.length} items</span>`;
+      
+      return html;
+    }
+    
+    function filterData(searchTerm) {
+      if (!searchTerm) return allData;
+      
+      const term = searchTerm.toLowerCase();
+      return allData.filter(item => {
+        return Object.values(item).some(val => 
+          String(val).toLowerCase().includes(term)
+        );
+      });
+    }
+    
+    function updateDisplay(data, title) {
+      const content = document.getElementById('content');
+      
+      if (data.length > 20) {
+        content.innerHTML = renderTable(data, title);
+      } else {
+        content.innerHTML = renderCards(data, title);
+      }
+    }
+    
+    fetch(endpoint)
+      .then(r => r.json())
+      .then(data => {
+        let displayData = [];
+        let title = 'Data';
+        
+        // Handle different response structures
+        if (data.spacecrafts) {
+          displayData = data.spacecrafts;
+          title = 'Spacecrafts';
+        } else if (data.launchers) {
+          displayData = data.launchers;
+          title = 'Launch Vehicles';
+        } else if (data.customer_satellites) {
+          displayData = data.customer_satellites;
+          title = 'Customer Satellites';
+        } else if (data.centres) {
+          displayData = data.centres;
+          title = 'Research Centres';
+        } else if (data.spacecraft_missions) {
+          displayData = data.spacecraft_missions;
+          title = 'Spacecraft Missions';
+        } else if (Array.isArray(data)) {
+          displayData = data;
+        } else {
+          // Single object or unknown structure
+          displayData = [data];
+        }
+        
+        allData = displayData;
+        
+        if (displayData.length > 0) {
+          document.getElementById('controls').style.display = 'flex';
+          updateDisplay(displayData, title);
+          
+          // Setup search
+          document.getElementById('search').addEventListener('input', (e) => {
+            const filtered = filterData(e.target.value);
+            updateDisplay(filtered, title);
+          });
+        } else {
+          document.getElementById('content').innerHTML = '<div class="loading">No data available</div>';
+          document.getElementById('title').textContent = title;
+        }
+      })
+      .catch(err => {
+        console.error(err);
+        document.getElementById('content').innerHTML = 
+          `<div class="error">Error loading data: ${err.message}</div>`;
+        document.getElementById('title').textContent = 'Error';
+      });
+  </script>
+</body>
+</html>
