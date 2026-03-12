@@ -1,4 +1,5 @@
-const data = require("../../data/spacecraft_missions.json");
+const missions = require("../../data/spacecraft_missions.json");
+const spacecrafts = require("../../data/spacecrafts.json");
 
 module.exports = async (req, res) => {
   try {
@@ -8,12 +9,19 @@ module.exports = async (req, res) => {
       res.status(400);
       return res.send({ error: "Invalid ID" });
     }
-    const record = data.spacecraft_missions.find((m) => m.id === id);
+    const record = missions.spacecraft_missions.find((m) => m.id === id);
     if (!record) {
       res.status(404);
       return res.send({ error: "Not found" });
     }
-    res.send(record);
+    const spacecraft = spacecrafts.spacecrafts.find(
+      (s) => s.name.toLowerCase() === record.name.toLowerCase()
+    );
+    const result = { ...record, _links: { self: `/api/spacecraft_missions/${id}` } };
+    if (spacecraft) {
+      result._links.spacecraft = `/api/spacecrafts/${spacecraft.id}`;
+    }
+    res.send(result);
   } catch (error) {
     res.status(500);
     res.send({ error: error.message });
