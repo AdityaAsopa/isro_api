@@ -1,0 +1,1083 @@
+openapi: 3.1.0
+info:
+  title: ISRO API
+  version: 1.1.0
+  description: |
+    Open data for India's space programme. 50 years of ISRO missions,
+    spacecraft, launch vehicles, customer satellites, and research centres
+    as structured, queryable JSON.
+
+    **Base URL (production):** `https://isro.vercel.app`
+    **Base URL (local dev):** `http://localhost:3000`
+
+    All responses are JSON. All dates are ISO 8601 (`YYYY-MM-DD`).
+    Numeric fields (mass, power, altitude) are numbers or `null` — never strings.
+    Filters are case-insensitive and composable.
+  contact:
+    name: ISRO API on GitHub
+    url: https://github.com/isro/api
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+
+servers:
+  - url: https://isro.vercel.app
+    description: Production
+  - url: http://localhost:3000
+    description: Local development (npm start)
+
+tags:
+  - name: Core
+    description: Primary data collections
+  - name: Analytics
+    description: Aggregated and cross-collection views
+  - name: Meta
+    description: API metadata and health
+
+# ─── Reusable schemas ─────────────────────────────────────────────────────────
+components:
+  schemas:
+
+    # ── Enums ──────────────────────────────────────────────────────────────────
+    OrbitType:
+      type: string
+      enum: [GEO, SSO, LEO, Lunar, Interplanetary, Failed]
+      nullable: true
+
+    SpacecraftStatus:
+      type: string
+      enum: [active, decommissioned, failed, unknown]
+      nullable: true
+
+    MissionType:
+      type: string
+      example: Remote Sensing
+      nullable: true
+
+    LaunchOutcome:
+      type: string
+      enum: [success, failed, unknown]
+      nullable: true
+
+    VehicleFamily:
+      type: string
+      enum: [SLV, ASLV, PSLV, GSLV, LVM-3, RLV]
+      nullable: true
+
+    CollectionName:
+      type: string
+      enum:
+        - spacecrafts
+        - spacecraft_missions
+        - customer_satellites
+        - launchers
+        - centres
+
+    # ── Core resources ─────────────────────────────────────────────────────────
+    Spacecraft:
+      type: object
+      required: [id, name]
+      properties:
+        id:
+          type: integer
+          example: 68
+        name:
+          type: string
+          example: Chandrayaan-1
+        launch_date:
+          type: string
+          format: date
+          nullable: true
+          example: "2008-10-22"
+        launch_vehicle:
+          type: string
+          nullable: true
+          example: PSLV-C11
+        mission_type:
+          $ref: "#/components/schemas/MissionType"
+        orbit_type:
+          $ref: "#/components/schemas/OrbitType"
+        mass_kg:
+          type: number
+          nullable: true
+          example: 1380.0
+        status:
+          $ref: "#/components/schemas/SpacecraftStatus"
+        _links:
+          type: object
+          properties:
+            self:
+              type: string
+              example: /api/spacecrafts/68
+            mission:
+              type: string
+              nullable: true
+              example: /api/spacecraft_missions/47
+
+    SpacecraftMission:
+      type: object
+      required: [id, name]
+      properties:
+        id:
+          type: integer
+          example: 47
+        name:
+          type: string
+          example: Chandrayaan-1
+        mission_type:
+          $ref: "#/components/schemas/MissionType"
+        launch_date:
+          type: string
+          format: date
+          nullable: true
+          example: "2008-10-22"
+        launch_site:
+          type: string
+          nullable: true
+          example: SDSC SHAR
+        launch_vehicle:
+          type: string
+          nullable: true
+          example: PSLV-C11
+        orbit:
+          type: string
+          nullable: true
+          example: Lunar Transfer Orbit
+        orbit_type:
+          $ref: "#/components/schemas/OrbitType"
+        altitude_km:
+          type: number
+          nullable: true
+          example: 100.0
+        inclination_deg:
+          type: number
+          nullable: true
+          example: 90.0
+        mass_kg:
+          type: number
+          nullable: true
+          example: 1380.0
+        power_watts:
+          type: number
+          nullable: true
+          example: 700.0
+        mission_life:
+          type: string
+          nullable: true
+          example: 2 Years
+        status:
+          $ref: "#/components/schemas/SpacecraftStatus"
+        payloads:
+          type: string
+          nullable: true
+        stabilization:
+          type: string
+          nullable: true
+        propulsion:
+          type: string
+          nullable: true
+        _links:
+          type: object
+          properties:
+            self:
+              type: string
+              example: /api/spacecraft_missions/47
+            spacecraft:
+              type: string
+              nullable: true
+              example: /api/spacecrafts/68
+
+    Launcher:
+      type: object
+      required: [id]
+      properties:
+        id:
+          type: string
+          example: PSLV-C37
+        vehicle_family:
+          $ref: "#/components/schemas/VehicleFamily"
+
+    CustomerSatellite:
+      type: object
+      required: [id]
+      properties:
+        id:
+          type: string
+          example: DLR-TUBSAT
+        country:
+          type: string
+          nullable: true
+          example: Germany
+        launch_date:
+          type: string
+          format: date
+          nullable: true
+          example: "1999-05-26"
+        mass_kg:
+          type: number
+          nullable: true
+          example: 45.0
+        launcher:
+          type: string
+          nullable: true
+          example: PSLV-C2
+
+    Centre:
+      type: object
+      required: [id, name]
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: ISRO Headquarters
+        place:
+          type: string
+          nullable: true
+          example: Bengaluru
+        state:
+          type: string
+          nullable: true
+          example: Karnataka
+
+    # ── Analytics resources ────────────────────────────────────────────────────
+    TimelineEvent:
+      type: object
+      required: [date, name, type, collection, id]
+      properties:
+        date:
+          type: string
+          format: date
+          example: "1975-04-19"
+        name:
+          type: string
+          example: Aryabhata
+        type:
+          type: string
+          enum: [mission, spacecraft, customer_satellite]
+        collection:
+          type: string
+          example: spacecraft_missions
+        id:
+          oneOf:
+            - type: integer
+            - type: string
+          example: 1
+        orbit_type:
+          $ref: "#/components/schemas/OrbitType"
+        status:
+          $ref: "#/components/schemas/SpacecraftStatus"
+        country:
+          type: string
+          nullable: true
+        launcher:
+          type: string
+          nullable: true
+
+    LaunchEvent:
+      type: object
+      required: [launch_date, vehicle, total_payloads, co_passengers, outcome]
+      properties:
+        launch_date:
+          type: string
+          format: date
+          example: "2017-02-15"
+        vehicle:
+          type: string
+          example: PSLV-C37
+        vehicle_family:
+          $ref: "#/components/schemas/VehicleFamily"
+        launch_site:
+          type: string
+          nullable: true
+          example: SDSC SHAR
+        primary_payload:
+          type: string
+          nullable: true
+          example: Cartosat-2D
+        co_passengers:
+          type: array
+          items:
+            type: string
+          example: ["DOVE-101", "DOVE-102"]
+        total_payloads:
+          type: integer
+          minimum: 1
+          example: 104
+        total_mass_kg:
+          type: number
+          nullable: true
+          example: 1378.0
+        outcome:
+          $ref: "#/components/schemas/LaunchOutcome"
+
+    FamilySummary:
+      type: object
+      required: [id, label, description, count, _links]
+      properties:
+        id:
+          type: string
+          example: INSAT
+        label:
+          type: string
+          example: INSAT
+        description:
+          type: string
+          example: "Indian National Satellite System — multipurpose geostationary communication & meteorology series (1982–present)"
+        count:
+          type: integer
+          minimum: 1
+          example: 22
+        _links:
+          type: object
+          properties:
+            self:
+              type: string
+              example: /api/families?name=INSAT
+
+    FamilyDetail:
+      type: object
+      required: [id, label, description, count, members]
+      properties:
+        id:
+          type: string
+          example: INSAT
+        label:
+          type: string
+          example: INSAT
+        description:
+          type: string
+        count:
+          type: integer
+        members:
+          type: array
+          items:
+            $ref: "#/components/schemas/Spacecraft"
+
+    SearchResult:
+      type: object
+      required: [collection, id, name, match_field]
+      properties:
+        collection:
+          $ref: "#/components/schemas/CollectionName"
+        id:
+          oneOf:
+            - type: integer
+            - type: string
+          example: 68
+        name:
+          type: string
+          example: Chandrayaan-1
+        match_field:
+          type: string
+          example: name
+
+    # ── Error ─────────────────────────────────────────────────────────────────
+    Error:
+      type: object
+      required: [error]
+      properties:
+        error:
+          type: string
+          example: "q is required"
+
+# ─── Paths ───────────────────────────────────────────────────────────────────
+paths:
+
+  /api:
+    get:
+      tags: [Meta]
+      summary: API index
+      description: Returns the API name, version, and a map of all collection endpoints.
+      operationId: getIndex
+      responses:
+        "200":
+          description: API metadata
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  name:
+                    type: string
+                    example: ISRO API
+                  version:
+                    type: string
+                    example: 1.0.0
+                  description:
+                    type: string
+                  endpoints:
+                    type: object
+                    additionalProperties:
+                      type: string
+
+  /api/health:
+    get:
+      tags: [Meta]
+      summary: Health check
+      description: Returns API status, current timestamp, and record count per collection.
+      operationId: getHealth
+      responses:
+        "200":
+          description: Healthy
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [status, timestamp, records]
+                properties:
+                  status:
+                    type: string
+                    enum: [ok, error]
+                    example: ok
+                  timestamp:
+                    type: string
+                    format: date-time
+                    example: "2026-03-12T10:00:00.000Z"
+                  records:
+                    type: object
+                    properties:
+                      spacecrafts:
+                        type: integer
+                        example: 113
+                      spacecraft_missions:
+                        type: integer
+                        example: 64
+                      customer_satellites:
+                        type: integer
+                        example: 75
+                      launchers:
+                        type: integer
+                        example: 81
+                      centres:
+                        type: integer
+                        example: 44
+
+  /api/stats:
+    get:
+      tags: [Analytics]
+      summary: Aggregate statistics
+      description: |
+        Runtime-computed statistics across all five collections.
+        Useful for dashboards and summary views.
+      operationId: getStats
+      responses:
+        "200":
+          description: Statistics object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  totals:
+                    type: object
+                    description: Total record count per collection
+                    example:
+                      spacecrafts: 113
+                      spacecraft_missions: 64
+                      customer_satellites: 75
+                      launchers: 81
+                      centres: 44
+                  spacecrafts:
+                    type: object
+                    properties:
+                      by_status:
+                        type: object
+                        additionalProperties:
+                          type: integer
+                      by_orbit_type:
+                        type: object
+                        additionalProperties:
+                          type: integer
+                  spacecraft_missions:
+                    type: object
+                    properties:
+                      by_status:
+                        type: object
+                        additionalProperties:
+                          type: integer
+                      by_orbit_type:
+                        type: object
+                        additionalProperties:
+                          type: integer
+                      by_mission_type:
+                        type: object
+                        additionalProperties:
+                          type: integer
+                  customer_satellites:
+                    type: object
+                    properties:
+                      by_country:
+                        type: object
+                        additionalProperties:
+                          type: integer
+                      total_mass_kg:
+                        type: number
+                  launchers:
+                    type: object
+                    properties:
+                      by_vehicle_family:
+                        type: object
+                        additionalProperties:
+                          type: integer
+
+  /api/spacecrafts:
+    get:
+      tags: [Core]
+      summary: List all spacecraft
+      description: |
+        Returns all 113 ISRO spacecraft. Supports case-insensitive
+        field filtering via query parameters.
+      operationId: listSpacecrafts
+      parameters:
+        - name: status
+          in: query
+          schema:
+            $ref: "#/components/schemas/SpacecraftStatus"
+          example: active
+        - name: orbit_type
+          in: query
+          schema:
+            $ref: "#/components/schemas/OrbitType"
+          example: GEO
+        - name: mission_type
+          in: query
+          schema:
+            type: string
+          example: Remote Sensing
+        - name: launch_vehicle
+          in: query
+          schema:
+            type: string
+          example: PSLV-C11
+      responses:
+        "200":
+          description: List of spacecraft
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [count, spacecrafts]
+                properties:
+                  count:
+                    type: integer
+                    example: 113
+                  spacecrafts:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Spacecraft"
+
+  /api/spacecrafts/{id}:
+    get:
+      tags: [Core]
+      summary: Get spacecraft by ID
+      operationId: getSpacecraftById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+          example: 68
+      responses:
+        "200":
+          description: Spacecraft record
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Spacecraft"
+        "400":
+          description: Invalid ID
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /api/spacecraft_missions:
+    get:
+      tags: [Core]
+      summary: List all missions
+      description: |
+        Returns all 64 detailed spacecraft missions with mass, power, orbit,
+        and payload data. Supports field filtering.
+      operationId: listMissions
+      parameters:
+        - name: status
+          in: query
+          schema:
+            $ref: "#/components/schemas/SpacecraftStatus"
+        - name: orbit_type
+          in: query
+          schema:
+            $ref: "#/components/schemas/OrbitType"
+        - name: mission_type
+          in: query
+          schema:
+            type: string
+          example: Remote Sensing
+        - name: launch_vehicle
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: List of missions
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [count, spacecraft_missions]
+                properties:
+                  count:
+                    type: integer
+                    example: 64
+                  spacecraft_missions:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/SpacecraftMission"
+
+  /api/spacecraft_missions/{id}:
+    get:
+      tags: [Core]
+      summary: Get mission by ID
+      operationId: getMissionById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+          example: 47
+      responses:
+        "200":
+          description: Mission record
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SpacecraftMission"
+        "400":
+          description: Invalid ID
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /api/launchers:
+    get:
+      tags: [Core]
+      summary: List all launch vehicles
+      description: |
+        Returns all 81 launch vehicles classified by family
+        (SLV, ASLV, PSLV, GSLV, LVM-3).
+      operationId: listLaunchers
+      parameters:
+        - name: vehicle_family
+          in: query
+          schema:
+            $ref: "#/components/schemas/VehicleFamily"
+          example: PSLV
+      responses:
+        "200":
+          description: List of launchers
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [count, launchers]
+                properties:
+                  count:
+                    type: integer
+                    example: 81
+                  launchers:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Launcher"
+
+  /api/launchers/{id}:
+    get:
+      tags: [Core]
+      summary: Get launch vehicle by ID
+      operationId: getLauncherById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: PSLV-C37
+      responses:
+        "200":
+          description: Launcher record
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Launcher"
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /api/customer_satellites:
+    get:
+      tags: [Core]
+      summary: List all customer satellites
+      description: |
+        Returns all 75 foreign satellites launched by ISRO (mostly via PSLV
+        commercial launches). Includes country, mass, and launch vehicle.
+      operationId: listCustomerSatellites
+      parameters:
+        - name: country
+          in: query
+          schema:
+            type: string
+          example: Germany
+        - name: launcher
+          in: query
+          schema:
+            type: string
+          example: PSLV-C37
+      responses:
+        "200":
+          description: List of customer satellites
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [count, customer_satellites]
+                properties:
+                  count:
+                    type: integer
+                    example: 75
+                  customer_satellites:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/CustomerSatellite"
+
+  /api/customer_satellites/{id}:
+    get:
+      tags: [Core]
+      summary: Get customer satellite by ID
+      operationId: getCustomerSatelliteById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: DLR-TUBSAT
+      responses:
+        "200":
+          description: Customer satellite record
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CustomerSatellite"
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /api/centres:
+    get:
+      tags: [Core]
+      summary: List all ISRO centres
+      description: |
+        Returns all 44 ISRO research and operational centres across India,
+        with place and state.
+      operationId: listCentres
+      parameters:
+        - name: state
+          in: query
+          schema:
+            type: string
+          example: Karnataka
+        - name: place
+          in: query
+          schema:
+            type: string
+          example: Bengaluru
+      responses:
+        "200":
+          description: List of centres
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [count, centres]
+                properties:
+                  count:
+                    type: integer
+                    example: 44
+                  centres:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Centre"
+
+  /api/centres/{id}:
+    get:
+      tags: [Core]
+      summary: Get centre by ID
+      operationId: getCentreById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+          example: 1
+      responses:
+        "200":
+          description: Centre record
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Centre"
+        "400":
+          description: Invalid ID
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /api/timeline:
+    get:
+      tags: [Analytics]
+      summary: Chronological event stream
+      description: |
+        A unified timeline of all ISRO launches sorted by date, drawing from
+        spacecraft missions, standalone spacecraft, and customer satellites.
+
+        Spacecraft that appear in `spacecraft_missions` are de-duplicated
+        (the mission record takes precedence).
+
+        **Filter examples:**
+        - `?date=04-19` — "on this day": April 19 across all years (Aryabhata day)
+        - `?year=1975` — all events in 1975
+        - `?month=2023-07` — all events in July 2023
+        - `?range=1975,1999` — the first 25 years of ISRO
+      operationId: getTimeline
+      parameters:
+        - name: date
+          in: query
+          description: "Filter by month-day across all years (format: MM-DD)"
+          schema:
+            type: string
+            pattern: "^\\d{2}-\\d{2}$"
+          example: "04-19"
+        - name: month
+          in: query
+          description: "Filter by year-month (format: YYYY-MM)"
+          schema:
+            type: string
+            pattern: "^\\d{4}-\\d{2}$"
+          example: "2023-07"
+        - name: year
+          in: query
+          description: Filter by year
+          schema:
+            type: string
+            pattern: "^\\d{4}$"
+          example: "1975"
+        - name: range
+          in: query
+          description: "Filter by year range (format: YYYY,YYYY)"
+          schema:
+            type: string
+            pattern: "^\\d{4},\\d{4}$"
+          example: "1975,1999"
+      responses:
+        "200":
+          description: Timeline events sorted chronologically
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [count, events]
+                properties:
+                  count:
+                    type: integer
+                    example: 43
+                  events:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/TimelineEvent"
+
+  /api/launches:
+    get:
+      tags: [Analytics]
+      summary: Unified launch manifest
+      description: |
+        One record per rocket launch, merging the primary ISRO payload with
+        any co-passenger customer satellites. The world-record PSLV-C37 launch
+        (February 2017, 104 satellites) appears as a single entry with
+        `total_payloads: 104`.
+
+        Results are sorted chronologically by launch date.
+      operationId: getLaunches
+      parameters:
+        - name: year
+          in: query
+          schema:
+            type: string
+            pattern: "^\\d{4}$"
+          example: "2017"
+        - name: vehicle_family
+          in: query
+          description: Case-insensitive vehicle family filter
+          schema:
+            $ref: "#/components/schemas/VehicleFamily"
+          example: PSLV
+        - name: outcome
+          in: query
+          schema:
+            $ref: "#/components/schemas/LaunchOutcome"
+          example: success
+      responses:
+        "200":
+          description: Launch manifest
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [count, launches]
+                properties:
+                  count:
+                    type: integer
+                    example: 12
+                  launches:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/LaunchEvent"
+
+  /api/families:
+    get:
+      tags: [Analytics]
+      summary: Spacecraft family trees
+      description: |
+        Groups all 113 ISRO spacecraft into 15 named evolutionary series based
+        on name-pattern matching.
+
+        **Without `?name`:** returns a summary list of all families sorted by
+        member count descending.
+
+        **With `?name=INSAT`:** returns the full list of INSAT-series spacecraft
+        sorted chronologically by launch date.
+
+        Known families: INSAT, KALPANA, GSAT, IRS, CARTOSAT, RESOURCESAT,
+        RISAT, OCEANSAT, CHANDRAYAAN, MANGALYAAN, IRNSS, EOS, ROHINI,
+        SROSS, BHASKARA.
+      operationId: getFamilies
+      parameters:
+        - name: name
+          in: query
+          description: Family identifier (case-insensitive)
+          schema:
+            type: string
+          example: INSAT
+      responses:
+        "200":
+          description: Family list or family detail
+          content:
+            application/json:
+              oneOf:
+                - description: All family summaries (no ?name)
+                  schema:
+                    type: object
+                    required: [count, families]
+                    properties:
+                      count:
+                        type: integer
+                        example: 15
+                      families:
+                        type: array
+                        items:
+                          $ref: "#/components/schemas/FamilySummary"
+                - description: Single family detail (?name=INSAT)
+                  schema:
+                    $ref: "#/components/schemas/FamilyDetail"
+        "404":
+          description: Family name not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /api/search:
+    get:
+      tags: [Analytics]
+      summary: Full-text search
+      description: |
+        Case-insensitive substring search across all five collections.
+        Searched fields per collection:
+        - **spacecrafts** — name, mission_type, orbit_type, status, launch_vehicle
+        - **spacecraft_missions** — name, mission_type, orbit_type, status, launch_vehicle, payloads
+        - **customer_satellites** — id, country, launcher
+        - **launchers** — id, vehicle_family
+        - **centres** — name, place, state
+
+        Returns a flat list of matches with `collection` and `match_field` so
+        callers know where and why each result matched.
+      operationId: search
+      parameters:
+        - name: q
+          in: query
+          required: true
+          description: Search term (minimum 1 non-whitespace character)
+          schema:
+            type: string
+            minLength: 1
+          example: chandrayaan
+        - name: collection
+          in: query
+          description: Limit search to a single collection
+          schema:
+            $ref: "#/components/schemas/CollectionName"
+          example: spacecrafts
+      responses:
+        "200":
+          description: Search results
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [query, count, results]
+                properties:
+                  query:
+                    type: string
+                    example: chandrayaan
+                  count:
+                    type: integer
+                    example: 4
+                  results:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/SearchResult"
+        "400":
+          description: Missing or empty `?q` parameter, or unknown `?collection`
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"

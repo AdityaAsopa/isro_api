@@ -7,6 +7,20 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+### Added — Interactive API Documentation
+
+- `openapi.yaml` — OpenAPI 3.1 specification covering all 17 routes:
+  5 collections (list + ID), `/api/stats`, `/api/health`, `/api/timeline`,
+  `/api/launches`, `/api/families`, `/api/search`, `/api`; includes full
+  schema definitions for all request parameters, response shapes, and error
+  objects; enum constraints for `orbit_type`, `status`, `vehicle_family`,
+  `outcome`; `nullable: true` on optional fields per OpenAPI 3.1
+- `GET /docs` — interactive documentation powered by Redoc (CDN, no build step);
+  space-themed sidebar (`#080818` background, `#06b8ee` accent); spec served
+  from `/openapi.yaml`
+- `index.html` hero — "API Docs" button linking to `/docs`; "Explore" button
+  retained for the data viewer
+
 ### Added — New API endpoints
 
 - `GET /api/timeline` — chronological event stream across all collections;

@@ -81,6 +81,32 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));
 });
 
+// Interactive API docs powered by Redoc (no build step)
+app.get('/docs', (_req, res) => {
+  res.send(`<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ISRO API — Docs</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body { margin: 0; font-family: 'Poppins', sans-serif; }
+    redoc-container { display: block; }
+  </style>
+</head>
+<body>
+  <redoc spec-url="/openapi.yaml"
+    hide-download-button="false"
+    expand-responses="200"
+    theme='{"colors":{"primary":{"main":"#06b8ee"}},"typography":{"fontFamily":"Poppins, sans-serif"},"sidebar":{"backgroundColor":"#080818","textColor":"#94a3b8"}}'
+  ></redoc>
+  <script src="https://cdn.jsdelivr.net/npm/redoc@2.1.3/bundles/redoc.standalone.min.js"></script>
+</body>
+</html>`);
+});
+
 // 404 handler
 app.use((req, res) => {
   res.status(404).json({ error: 'Not found' });

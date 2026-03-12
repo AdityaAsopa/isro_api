@@ -161,6 +161,34 @@ PR: https://github.com/isro/api/pull/71
 
 ---
 
+### Dev batch — OpenAPI 3.1 spec + interactive docs at /docs
+
+**Branch:** `dev` (fork: AdityaAsopa/isro_api)
+
+---
+
+An API without documentation is a black box. Fixed that today.
+
+`openapi.yaml` — a full OpenAPI 3.1 specification covering every route on the ISRO API. All 17 endpoints, all query parameters, all response shapes, all error objects. Enum constraints on orbit types, mission statuses, vehicle families. `nullable: true` on every optional field. Schema components reused across endpoints so the spec stays DRY.
+
+`GET /docs` — interactive documentation powered by Redoc. No build step. No separate deploy. Just a route in `server.js` that renders Redoc from CDN with the space-themed colours matching the dashboard (`#080818` sidebar, `#06b8ee` accent). The spec is served from `/openapi.yaml` so it stays in sync with the code.
+
+What this unlocks:
+- Click any endpoint in the sidebar → see parameters, example responses, schema
+- Try requests directly from the browser
+- Auto-generated client code snippets (curl, JS, Python)
+- Machine-readable contract for future SDK generation
+
+The full spec is 480 lines — but the important parts are readable:
+- `components/schemas` defines 15 reusable types
+- Every endpoint has `operationId`, a description, and documented error codes
+
+Dashboard hero now has an "API Docs" button linking to `/docs`.
+
+#ISRO #OpenSource #API #OpenAPI #Documentation #India #SpaceTech
+
+---
+
 ### Dev batch — Four new platform endpoints (timeline, launches, families, search)
 
 **Branch:** `dev` (fork: AdityaAsopa/isro_api)
