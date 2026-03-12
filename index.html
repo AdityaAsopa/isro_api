@@ -140,6 +140,35 @@
           <span class="endpoint-card__path">/api/stats</span>
           <span class="endpoint-card__desc">Aggregate analytics across all collections</span>
         </a>
+        <a class="endpoint-card endpoint-card--new" href="/api/timeline" target="_blank" rel="noopener noreferrer">
+          <span class="endpoint-card__method">GET</span>
+          <span class="endpoint-card__path">/api/timeline</span>
+          <span class="endpoint-card__desc">Chronological event stream across all launches · filter by date, month, year, or range</span>
+          <span class="endpoint-card__badge">New</span>
+        </a>
+        <a class="endpoint-card endpoint-card--new" href="/api/launches" target="_blank" rel="noopener noreferrer">
+          <span class="endpoint-card__method">GET</span>
+          <span class="endpoint-card__path">/api/launches</span>
+          <span class="endpoint-card__desc">Unified launch manifest — primary payloads + co-passengers per rocket · filter by year, family, outcome</span>
+          <span class="endpoint-card__badge">New</span>
+        </a>
+        <a class="endpoint-card endpoint-card--new" href="/api/families" target="_blank" rel="noopener noreferrer">
+          <span class="endpoint-card__method">GET</span>
+          <span class="endpoint-card__path">/api/families</span>
+          <span class="endpoint-card__desc">Spacecraft grouped into evolutionary series: INSAT, IRS, GSAT, Cartosat, IRNSS, Chandrayaan…</span>
+          <span class="endpoint-card__badge">New</span>
+        </a>
+        <a class="endpoint-card endpoint-card--new" href="/api/search?q=chandrayaan" target="_blank" rel="noopener noreferrer">
+          <span class="endpoint-card__method">GET</span>
+          <span class="endpoint-card__path">/api/search?q=</span>
+          <span class="endpoint-card__desc">Full-text search across all five collections · optional ?collection= to narrow scope</span>
+          <span class="endpoint-card__badge">New</span>
+        </a>
+        <a class="endpoint-card" href="/api/health" target="_blank" rel="noopener noreferrer">
+          <span class="endpoint-card__method">GET</span>
+          <span class="endpoint-card__path">/api/health</span>
+          <span class="endpoint-card__desc">API health check — record counts, uptime indicator</span>
+        </a>
       </div>
 
       <div class="feature-pills">
@@ -149,6 +178,10 @@
         <span class="pill">ISO 8601 dates</span>
         <span class="pill">Numeric fields</span>
         <span class="pill">CORS enabled</span>
+        <span class="pill">Full-text search</span>
+        <span class="pill">Unified launch manifest</span>
+        <span class="pill">Satellite families</span>
+        <span class="pill">Timeline queries</span>
       </div>
     </div>
   </section>

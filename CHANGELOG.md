@@ -7,7 +7,41 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+### Added — New API endpoints
+
+- `GET /api/timeline` — chronological event stream across all collections;
+  supports `?date=MM-DD` ("on this day"), `?month=YYYY-MM`, `?year=YYYY`,
+  `?range=YYYY,YYYY`; deduplicates spacecrafts that already appear in missions
+- `GET /api/launches` — unified launch manifest merging spacecraft missions +
+  customer satellites into one event per (vehicle, date); fields: `launch_date`,
+  `vehicle`, `vehicle_family`, `launch_site`, `primary_payload`, `co_passengers[]`,
+  `total_payloads`, `total_mass_kg`, `outcome`; filters: `?year=`, `?vehicle_family=`,
+  `?outcome=`
+- `GET /api/families[?name=INSAT]` — spacecraft grouped into 15 named evolutionary
+  series (INSAT, GSAT, IRS, Cartosat, RISAT, IRNSS/NavIC, Chandrayaan, Resourcesat,
+  Oceansat, EOS, Rohini, SROSS, Bhaskara, INS, Microsat); collection endpoint
+  returns summaries sorted by member count; `?name=` returns full members list
+  sorted chronologically
+- `GET /api/search?q=<term>` — case-insensitive substring search across all five
+  collections; optional `?collection=` to narrow scope; response includes
+  `match_field` indicating which field triggered the hit
+- `GET /api/health` — health check returning `status`, `timestamp`, and per-collection
+  record counts
+
+### Added — Tests
+
+- 44 new Jest tests across `timeline.test.js`, `launches.test.js`,
+  `families.test.js`, and `search.test.js`
+
+### Added — Dashboard & Docs
+
+- Interactive dashboard (`index.html`) updated: four new endpoint cards with "New"
+  badge; four additional feature pills; new `/api/health` card
+- `isro_api_plan.md` — big-picture vision document (10 platform moves)
+- `social_posts.md` — LinkedIn posts and X thread for all contributions
+
 ### Added
+
 - Interactive dashboard landing page with live Chart.js visualisations
 - `CHANGELOG.md` — this file
 

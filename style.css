@@ -186,6 +186,16 @@ a:hover { text-decoration: underline; }
 }
 .footer a { color: var(--accent); }
 
+/* ─── Endpoint card badge ────────────────────────────────────────────────── */
+.endpoint-card { position: relative; }
+.endpoint-card__badge {
+  position: absolute; top: 10px; right: 10px;
+  background: var(--accent); color: #000;
+  font-size: 0.65rem; font-weight: 700; letter-spacing: 0.05em;
+  padding: 2px 7px; border-radius: 99px; text-transform: uppercase;
+}
+.endpoint-card--new { border-color: var(--accent); }
+
 /* ─── Responsive ─────────────────────────────────────────────────────────── */
 @media (max-width: 900px) {
   .charts-grid { grid-template-columns: 1fr 1fr; }
