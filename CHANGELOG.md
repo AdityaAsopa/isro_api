@@ -33,6 +33,21 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - 44 new Jest tests across `timeline.test.js`, `launches.test.js`,
   `families.test.js`, and `search.test.js`
 
+### Added — Local Dev & Data Viewer
+
+- `server.js` — Express wrapper for local development (`npm start`, port 3000);
+  adapts all 11 Vercel-style handlers via a `wrapHandler()` bridge that merges
+  Express `req.params` into `req.query` so Vercel-style ID handlers work unchanged;
+  serves static files + all API routes including the 4 new endpoints
+- `viewer.html` — generic data viewer; auto-detects response shape for all 10
+  endpoint response types (spacecrafts, spacecraft_missions, launchers,
+  customer_satellites, centres, events, launches, families, members, results);
+  card layout ≤20 items / table view >20 items; live search box; status/orbit/outcome
+  colour badges; back navigation to dashboard
+- `index.html` — all 11 endpoint cards now link to `viewer.html?endpoint=...`
+  for a formatted view instead of raw JSON; "Explore API" hero button also uses viewer
+- `package.json` — added `express` dependency; `start`/`dev` scripts; `main: server.js`
+
 ### Added — Dashboard & Docs
 
 - Interactive dashboard (`index.html`) updated: four new endpoint cards with "New"

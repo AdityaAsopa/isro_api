@@ -314,16 +314,16 @@
       if (!Array.isArray(data) || data.length === 0) {
         return '<div class="loading">No data available</div>';
       }
-      
+
       let html = '<div class="card-grid">';
-      
+
       data.forEach(item => {
-        const nameField = item.name || item.spacecraft_name || item.vehicle || item.centre_name || item.country || 'Item';
+        const nameField = item.name || item.label || item.vehicle || item.spacecraft_name || item.centre_name || item.country || 'Item';
         html += `<div class="data-card">`;
         html += `<h3>${nameField}</h3>`;
         
         Object.entries(item).forEach(([key, value]) => {
-          if (key !== 'id' && key !== 'name' && key !== 'spacecraft_name' && key !== 'vehicle' && key !== 'centre_name') {
+          if (key !== 'id' && key !== 'name' && key !== 'label' && key !== 'spacecraft_name' && key !== 'vehicle' && key !== 'centre_name') {
             html += `<p><span class="label">${key.replace(/_/g, ' ')}</span><br>${formatValue(key, value)}</p>`;
           }
         });
@@ -369,6 +369,9 @@
         if (data.spacecrafts) {
           displayData = data.spacecrafts;
           title = 'Spacecrafts';
+        } else if (data.spacecraft_missions) {
+          displayData = data.spacecraft_missions;
+          title = 'Spacecraft Missions';
         } else if (data.launchers) {
           displayData = data.launchers;
           title = 'Launch Vehicles';
@@ -378,9 +381,26 @@
         } else if (data.centres) {
           displayData = data.centres;
           title = 'Research Centres';
-        } else if (data.spacecraft_missions) {
-          displayData = data.spacecraft_missions;
-          title = 'Spacecraft Missions';
+        } else if (data.events) {
+          // /api/timeline
+          displayData = data.events;
+          title = 'Timeline Events';
+        } else if (data.launches) {
+          // /api/launches
+          displayData = data.launches;
+          title = 'Launch Manifest';
+        } else if (data.members) {
+          // /api/families?name=INSAT
+          displayData = data.members;
+          title = data.label || 'Family Members';
+        } else if (data.families) {
+          // /api/families (collection listing)
+          displayData = data.families;
+          title = 'Satellite Families';
+        } else if (data.results) {
+          // /api/search
+          displayData = data.results;
+          title = data.query ? `Search: "${data.query}"` : 'Search Results';
         } else if (Array.isArray(data)) {
           displayData = data;
         } else {

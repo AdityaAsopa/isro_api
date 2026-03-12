@@ -163,7 +163,7 @@ PR: https://github.com/isro/api/pull/71
 
 ### Dev batch — Four new platform endpoints (timeline, launches, families, search)
 
-**Branch:** `dev` (fork: AdityaAsopa/iso_api)
+**Branch:** `dev` (fork: AdityaAsopa/isro_api)
 
 ---
 
@@ -331,7 +331,7 @@ One query, every collection. Response includes `match_field` so you know why eac
 
 44 new tests. Dashboard updated with cards for every new endpoint, "New" badges, feature pills.
 
-The fork is at: github.com/AdityaAsopa/iso_api · branch: `dev`
+The fork is at: github.com/AdityaAsopa/isro_api · branch: `dev`
 
 #ISRO #OpenSource #India #SpaceTech #OpenData #DataEngineering #API
 
