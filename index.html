@@ -3,46 +3,357 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ISRO API</title>
+  <title>ISRO API — India's Space Program, Open Data</title>
+  <meta name="description" content="Open-source REST API for ISRO spacecraft, launchers, missions, customer satellites, and research centres. 50 years of India's space program as structured data.">
   <link href="style.css" rel="stylesheet" type="text/css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 </head>
 <body>
-  <div class="container">
-    <div class="content">
-      <h1 class="container__content__heading">ISRO API</h1>
-      <p class="container__content__para">
-        Open Source API for ISRO spacecraft, launcher, and mission data
-      </p>
-      <h2 class="container__content__h2">API End-Points</h2>
-      <ul>
-        <li>
-          Spacecrafts:
-          <img src="data/space_indian.png" alt="ISRO Spacecraft">
-          <a href="/api/spacecrafts" target="_blank" rel="noopener noreferrer">/api/spacecrafts</a>
-        </li>
-        <li>
-          Launchers:
-          <a href="/api/launchers" target="_blank" rel="noopener noreferrer">/api/launchers</a>
-        </li>
-        <li>
-          Customer Satellites:
-          <a href="/api/customer_satellites" target="_blank" rel="noopener noreferrer">/api/customer_satellites</a>
-        </li>
-        <li>
-          Centres:
-          <a href="/api/centres" target="_blank" rel="noopener noreferrer">/api/centres</a>
-        </li>
-        <li>
-          Spacecraft Missions:
-          <a href="/api/spacecraft_missions" target="_blank" rel="noopener noreferrer">/api/spacecraft_missions</a>
-        </li>
-      </ul>
-      <hr>
-      <h3 class="center-text">Contribute at <a href="https://github.com/isro/api">GitHub</a></h3>
+
+  <!-- Stars background -->
+  <div class="stars" id="stars"></div>
+
+  <!-- Hero -->
+  <header class="hero">
+    <div class="hero__inner">
+      <div class="hero__badge">Open Source · REST API · Zero Dependencies</div>
+      <h1 class="hero__title">ISRO <span class="accent">API</span></h1>
+      <p class="hero__subtitle">50 years of India's space program as structured, queryable data.</p>
+      <div class="hero__actions">
+        <a href="https://github.com/isro/api" class="btn btn--primary" target="_blank" rel="noopener noreferrer">GitHub</a>
+        <a href="/api" class="btn btn--outline">Explore API</a>
+      </div>
     </div>
-  </div>
+  </header>
+
+  <!-- Live stats counters -->
+  <section class="section">
+    <div class="container">
+      <h2 class="section__title">By the numbers</h2>
+      <div class="stats-grid" id="stats-grid">
+        <div class="stat-card">
+          <span class="stat-card__number" data-key="spacecrafts">—</span>
+          <span class="stat-card__label">Spacecrafts</span>
+          <a href="/api/spacecrafts" class="stat-card__link">/api/spacecrafts</a>
+        </div>
+        <div class="stat-card">
+          <span class="stat-card__number" data-key="spacecraft_missions">—</span>
+          <span class="stat-card__label">Detailed Missions</span>
+          <a href="/api/spacecraft_missions" class="stat-card__link">/api/spacecraft_missions</a>
+        </div>
+        <div class="stat-card">
+          <span class="stat-card__number" data-key="launchers">—</span>
+          <span class="stat-card__label">Launch Vehicles</span>
+          <a href="/api/launchers" class="stat-card__link">/api/launchers</a>
+        </div>
+        <div class="stat-card">
+          <span class="stat-card__number" data-key="customer_satellites">—</span>
+          <span class="stat-card__label">Customer Satellites</span>
+          <a href="/api/customer_satellites" class="stat-card__link">/api/customer_satellites</a>
+        </div>
+        <div class="stat-card">
+          <span class="stat-card__number" data-key="centres">—</span>
+          <span class="stat-card__label">Research Centres</span>
+          <a href="/api/centres" class="stat-card__link">/api/centres</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Charts -->
+  <section class="section">
+    <div class="container">
+      <h2 class="section__title">Mission data at a glance</h2>
+      <div class="charts-grid">
+
+        <div class="chart-card">
+          <h3 class="chart-card__title">Orbit Types</h3>
+          <p class="chart-card__sub">Distribution across all classified missions</p>
+          <div class="chart-wrap">
+            <canvas id="chart-orbit"></canvas>
+          </div>
+        </div>
+
+        <div class="chart-card">
+          <h3 class="chart-card__title">Mission Status</h3>
+          <p class="chart-card__sub">Operational state of all spacecraft</p>
+          <div class="chart-wrap">
+            <canvas id="chart-status"></canvas>
+          </div>
+        </div>
+
+        <div class="chart-card">
+          <h3 class="chart-card__title">Vehicle Families</h3>
+          <p class="chart-card__sub">Launch vehicles by programme lineage</p>
+          <div class="chart-wrap">
+            <canvas id="chart-vehicles"></canvas>
+          </div>
+        </div>
+
+        <div class="chart-card chart-card--wide">
+          <h3 class="chart-card__title">Top Customer Countries</h3>
+          <p class="chart-card__sub">Foreign satellites launched by ISRO (PSLV commercial)</p>
+          <div class="chart-wrap chart-wrap--bar">
+            <canvas id="chart-countries"></canvas>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Endpoints -->
+  <section class="section">
+    <div class="container">
+      <h2 class="section__title">API Endpoints</h2>
+      <div class="endpoints-grid">
+        <a class="endpoint-card" href="/api/spacecrafts" target="_blank" rel="noopener noreferrer">
+          <span class="endpoint-card__method">GET</span>
+          <span class="endpoint-card__path">/api/spacecrafts</span>
+          <span class="endpoint-card__desc">All ISRO spacecraft with orbit, status, and launch data</span>
+        </a>
+        <a class="endpoint-card" href="/api/spacecraft_missions" target="_blank" rel="noopener noreferrer">
+          <span class="endpoint-card__method">GET</span>
+          <span class="endpoint-card__path">/api/spacecraft_missions</span>
+          <span class="endpoint-card__desc">Detailed mission data: mass, power, orbit, payloads</span>
+        </a>
+        <a class="endpoint-card" href="/api/launchers" target="_blank" rel="noopener noreferrer">
+          <span class="endpoint-card__method">GET</span>
+          <span class="endpoint-card__path">/api/launchers</span>
+          <span class="endpoint-card__desc">Launch vehicles classified by family</span>
+        </a>
+        <a class="endpoint-card" href="/api/customer_satellites" target="_blank" rel="noopener noreferrer">
+          <span class="endpoint-card__method">GET</span>
+          <span class="endpoint-card__path">/api/customer_satellites</span>
+          <span class="endpoint-card__desc">Foreign satellites launched by ISRO, with country and mass</span>
+        </a>
+        <a class="endpoint-card" href="/api/centres" target="_blank" rel="noopener noreferrer">
+          <span class="endpoint-card__method">GET</span>
+          <span class="endpoint-card__path">/api/centres</span>
+          <span class="endpoint-card__desc">ISRO research centres across India</span>
+        </a>
+        <a class="endpoint-card" href="/api/stats" target="_blank" rel="noopener noreferrer">
+          <span class="endpoint-card__method">GET</span>
+          <span class="endpoint-card__path">/api/stats</span>
+          <span class="endpoint-card__desc">Aggregate analytics across all collections</span>
+        </a>
+      </div>
+
+      <div class="feature-pills">
+        <span class="pill">Filter by field</span>
+        <span class="pill">Lookup by ID</span>
+        <span class="pill">Cross-linked records</span>
+        <span class="pill">ISO 8601 dates</span>
+        <span class="pill">Numeric fields</span>
+        <span class="pill">CORS enabled</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Quick start -->
+  <section class="section">
+    <div class="container container--narrow">
+      <h2 class="section__title">Quick start</h2>
+      <div class="code-block">
+        <div class="code-block__label">Fetch all active spacecraft in GEO orbit</div>
+        <pre><code>fetch('https://isro.vercel.app/api/spacecrafts?status=active&orbit_type=GEO')
+  .then(r => r.json())
+  .then(data => console.log(data.spacecrafts))</code></pre>
+      </div>
+      <div class="code-block">
+        <div class="code-block__label">Get Chandrayaan-3 mission details</div>
+        <pre><code>fetch('https://isro.vercel.app/api/spacecraft_missions/64')
+  .then(r => r.json())
+  .then(mission => console.log(mission.orbit_type, mission.mass_kg))</code></pre>
+      </div>
+      <div class="code-block">
+        <div class="code-block__label">All PSLV launches</div>
+        <pre><code>fetch('https://isro.vercel.app/api/launchers?vehicle_family=PSLV')
+  .then(r => r.json())
+  .then(data => console.log(`${data.launchers.length} PSLV variants`))</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <p>Open data for India's space programme · <a href="https://github.com/isro/api" target="_blank" rel="noopener noreferrer">Contribute on GitHub</a></p>
+  </footer>
+
+<script>
+// ── Stars ────────────────────────────────────────────────────────────────────
+const starsEl = document.getElementById('stars');
+for (let i = 0; i < 120; i++) {
+  const s = document.createElement('span');
+  s.className = 'star';
+  s.style.cssText = `left:${Math.random()*100}%;top:${Math.random()*100}%;
+    width:${Math.random()*2+1}px;height:${Math.random()*2+1}px;
+    animation-delay:${Math.random()*4}s;animation-duration:${Math.random()*3+2}s`;
+  starsEl.appendChild(s);
+}
+
+// ── Chart.js defaults ────────────────────────────────────────────────────────
+Chart.defaults.color = '#94a3b8';
+Chart.defaults.font.family = 'Poppins, sans-serif';
+Chart.defaults.font.size = 12;
+
+const PALETTE = {
+  cyan:   '#06b8ee',
+  green:  '#22c55e',
+  purple: '#a855f7',
+  amber:  '#f59e0b',
+  red:    '#ef4444',
+  slate:  '#475569',
+  orange: '#f97316',
+  blue:   '#3b82f6',
+  pink:   '#ec4899',
+  teal:   '#14b8a6',
+};
+
+const ORBIT_COLORS = {
+  GEO:           PALETTE.cyan,
+  SSO:           PALETTE.purple,
+  LEO:           PALETTE.green,
+  Lunar:         PALETTE.amber,
+  Interplanetary: PALETTE.orange,
+  Failed:        PALETTE.red,
+  unknown:       PALETTE.slate,
+};
+
+const STATUS_COLORS = {
+  active:        PALETTE.green,
+  decommissioned: PALETTE.slate,
+  failed:        PALETTE.red,
+  unknown:       '#334155',
+};
+
+function donutOptions(cutout = '65%') {
+  return {
+    cutout,
+    responsive: true,
+    maintainAspectRatio: true,
+    plugins: {
+      legend: { position: 'right', labels: { boxWidth: 12, padding: 14 } },
+      tooltip: { callbacks: {
+        label: ctx => ` ${ctx.label}: ${ctx.parsed} (${Math.round(ctx.parsed / ctx.dataset.data.reduce((a,b)=>a+b,0) * 100)}%)`
+      }}
+    }
+  };
+}
+
+// ── Animated counters ────────────────────────────────────────────────────────
+function animateCount(el, target, duration = 1200) {
+  const start = performance.now();
+  const update = now => {
+    const progress = Math.min((now - start) / duration, 1);
+    const eased = 1 - Math.pow(1 - progress, 3);
+    el.textContent = Math.round(eased * target);
+    if (progress < 1) requestAnimationFrame(update);
+  };
+  requestAnimationFrame(update);
+}
+
+// ── Fetch stats and render ───────────────────────────────────────────────────
+fetch('/api/stats')
+  .then(r => r.ok ? r.json() : null)
+  .then(data => {
+    if (!data) return;
+
+    // Counters
+    document.querySelectorAll('[data-key]').forEach(el => {
+      const v = data.totals[el.dataset.key];
+      if (v !== undefined) animateCount(el, v);
+    });
+
+    // Orbit type donut
+    const orbitData = data.spacecraft_missions.by_orbit_type;
+    const orbitLabels = Object.keys(orbitData).filter(k => k !== 'null');
+    new Chart(document.getElementById('chart-orbit'), {
+      type: 'doughnut',
+      data: {
+        labels: orbitLabels,
+        datasets: [{
+          data: orbitLabels.map(k => orbitData[k]),
+          backgroundColor: orbitLabels.map(k => ORBIT_COLORS[k] || PALETTE.slate),
+          borderWidth: 0,
+          hoverOffset: 8,
+        }]
+      },
+      options: donutOptions()
+    });
+
+    // Mission status donut (spacecraft)
+    const statusData = data.spacecrafts.by_status;
+    const statusLabels = Object.keys(statusData).filter(k => k !== 'null');
+    new Chart(document.getElementById('chart-status'), {
+      type: 'doughnut',
+      data: {
+        labels: statusLabels,
+        datasets: [{
+          data: statusLabels.map(k => statusData[k]),
+          backgroundColor: statusLabels.map(k => STATUS_COLORS[k] || PALETTE.slate),
+          borderWidth: 0,
+          hoverOffset: 8,
+        }]
+      },
+      options: donutOptions()
+    });
+
+    // Vehicle families donut
+    const vfData = data.launchers.by_vehicle_family;
+    const vfLabels = Object.keys(vfData).filter(k => k !== 'null').sort((a,b) => vfData[b]-vfData[a]);
+    const vfColors = [PALETTE.cyan, PALETTE.purple, PALETTE.green, PALETTE.amber,
+                      PALETTE.orange, PALETTE.blue, PALETTE.pink, PALETTE.teal];
+    new Chart(document.getElementById('chart-vehicles'), {
+      type: 'doughnut',
+      data: {
+        labels: vfLabels,
+        datasets: [{
+          data: vfLabels.map(k => vfData[k]),
+          backgroundColor: vfColors.slice(0, vfLabels.length),
+          borderWidth: 0,
+          hoverOffset: 8,
+        }]
+      },
+      options: donutOptions()
+    });
+
+    // Top countries horizontal bar
+    const ctryData = data.customer_satellites.by_country;
+    const ctryEntries = Object.entries(ctryData)
+      .filter(([k]) => k !== 'unknown' && k !== 'null')
+      .sort((a,b) => b[1]-a[1])
+      .slice(0, 12);
+    new Chart(document.getElementById('chart-countries'), {
+      type: 'bar',
+      data: {
+        labels: ctryEntries.map(([k]) => k),
+        datasets: [{
+          label: 'Satellites launched',
+          data: ctryEntries.map(([,v]) => v),
+          backgroundColor: PALETTE.cyan + 'cc',
+          borderColor: PALETTE.cyan,
+          borderWidth: 1,
+          borderRadius: 4,
+        }]
+      },
+      options: {
+        indexAxis: 'y',
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { display: false } },
+        scales: {
+          x: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { precision: 0 } },
+          y: { grid: { display: false } }
+        }
+      }
+    });
+  })
+  .catch(() => {
+    // stats endpoint not available yet — counters stay as dashes
+  });
+</script>
 </body>
 </html>
